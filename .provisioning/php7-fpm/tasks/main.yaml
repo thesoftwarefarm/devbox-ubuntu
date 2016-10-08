@@ -8,6 +8,7 @@
    - php-mysql
    - php-curl
    - php-mcrypt
+   - php-mbstring
    - php-common
    - php-gd
    - phpunit
