@@ -1,15 +1,19 @@
-# devbox-ubuntu-14
+# devbox-ubuntu-16
 
-A Vagrant box with Ansible provisioner, based on Ubuntu 14.
+A Vagrant box with Ansible provisioner, based on Ubuntu 16.
 
 Includes:
 
-- Apache 2.4.7, PHP 5.5.9, MySQL 5.5.49
-- phpMyAdmin
-- automatic backup of local databases on `vagrant halt` using automysqlbackup; the backups are stored in the `.database-backups` folder
-- various tools like `curl`, `wget`, `git`, `mc`, `git`, `bash-completion`, `mcrypt`, `xdebug`, `phpunit`, `composer`
-- redis
+- system
+- nginx
+- php7-fpm
+- mysql-official-latest
+- composer
 - wkhtmltox
+- redis
+- beanstalk
+- supervisor
+- curl, wget, git, e, mc
 
 ## Installation
 
@@ -31,7 +35,7 @@ sudo mv /etc/ansible/hosts /etc/ansible/hosts.orig
 ### Clone this repository
 While in your Projects folder,
 ```
-git clone git@gitlab.thesoftwarefarm.co.uk:thesoftwarefarm/devbox-ubuntu-14.git .
+git@gitlab.thesoftwarefarm.co.uk:thesoftwarefarm/devbox-ubuntu-16.git ubuntu16
 ```
 
 ### Create a playbook from the given sample
@@ -55,10 +59,14 @@ The entry above will give you a `my-project.dev` domain.
 
 The credentials are `root | vagrant`.
 
-### phpMyAdmin
-phpMyAdmin can be accessed by adding `/phpmyadmin` after any domain you have configured.
+# !!! Important. Until ansible is updated please run the following. On mysql 5.7 root@locahost has a different plugin for auth
+```
+sudo su
 
-Example: `http://my-project.dev/phpmyadmin/`
+mysql -u root -p
+
+# ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'vagrant';
+```
 
 Log in using the MySQL credentials above.
 
@@ -66,10 +74,6 @@ Log in using the MySQL credentials above.
 Each vhost that the provisioner creates will have a xip.io ServerAlias, so you can access your projects from other computers in the same LAN using `http://PROJECT_NAME.IP.xip.io/`.
 
 Example: `http://my-project.192.168.0.12.xip.io/`.
-
-### Using NFS
-In the playbook.yml file, `vagrantfile.use_nfs` controls whether NFS should be used when syncing the synced folder.
-
 ### Other considerations
 
 On a mac, if you use WiFi you may need to replace the bridged network interface (`vars.network.bridge`) with something else (`en0: Wi-Fi (AirPort)`), or you will be asked to choose one of the available interfaces when you `vagrant up`.
