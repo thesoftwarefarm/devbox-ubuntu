@@ -1,0 +1,21 @@
+- name: install nginx
+  apt: name=nginx
+
+- name: remove default virtual host
+  file: path={{item}} state=absent
+  with_items:
+    - /etc/nginx/sites-available/default
+    - /etc/nginx/sites-enabled/default
+
+- name: copy virtual hosts
+  template: src=vhosts.conf.j2 dest=/etc/nginx/sites-available/{{item.name}}
+  with_items: "{{ vhosts }}"
+
+- name: create vhost simlink
+  file: path=/etc/nginx/sites-enabled/{{item.name}}
+        src=/etc/nginx/sites-available/{{item.name}}
+        state=link
+        force=yes
+  with_items: "{{ vhosts }}"
+  notify:
+    - reload nginx

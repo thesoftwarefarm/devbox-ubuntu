@@ -1,0 +1,90 @@
+---
+
+- name: update apt cache
+  apt: update_cache=yes
+
+- name: install system tools
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - curl
+    - wget
+    - build-essential
+    - python-software-properties
+    - bash-completion
+    - vim
+    - git
+    - htop
+    - imagemagick
+    - mc
+    - re2c
+    - mcrypt
+    - tree
+    - ranger
+    - optipng
+    - pv
+
+#- name: change hostname
+#  lineinfile: 
+#    dest: /etc/hostname
+#    regexp: "^vagrant.+$"
+#    line: "webdev"
+#    backup: no
+#    backrefs: yes
+
+#- name: apply hostname
+#  command: /etc/init.d/hostname.sh start
+
+- name: cd to /vagrant
+  lineinfile: 
+    dest: /home/vagrant/.bashrc 
+    line: "cd /vagrant"
+    state: present
+
+- name: set vim as default editor
+  command: update-alternatives --set editor /usr/bin/vim.basic
+  changed_when: false
+
+- name: configure timezone
+  copy:
+    content: "{{ system.timezone }}"
+    dest: /etc/timezone
+    owner: root
+    group: root
+    mode: 644
+    backup: yes
+  notify:
+    - update timezone
+
+- name: configure localtime
+  file:
+    src: /usr/share/zoneinfo/{{ system.timezone }}
+    dest: /etc/localtime
+    owner: root
+    group: root
+    mode: 644
+    state: link
+    force: yes
+    backup: yes
+  changed_when: false
+
+- lineinfile: dest=/home/vagrant/.bashrc line='export LC_ALL="en_US.UTF-8"'
+- lineinfile: dest=/home/vagrant/.bashrc line='export LANG="en_US.UTF-8"'
+
+- name: install language packs
+  apt: name=language-pack-en state=latest
+
+- name: check if e extractor is installed
+  stat: path=/usr/local/bin/e
+  register: e_extractor_bin
+
+- name: install e extractor
+  shell: wget http://martin.ankerl.com/files/e
+  when: not e_extractor_bin.stat.exists
+
+- name: move e extractor
+  shell: mv e /usr/local/bin
+  when: not e_extractor_bin.stat.exists
+
+- name: make e extractor executable
+  shell: chmod a+x /usr/local/bin/e
+  when: not e_extractor_bin.stat.exists

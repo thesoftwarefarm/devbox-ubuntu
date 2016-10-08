@@ -1,0 +1,49 @@
+---
+
+- name: install php-fpm
+  apt: pkg={{ item }} state=installed update_cache=true
+  with_items:
+   - php-fpm
+   - php-cli
+   - php-mysql
+   - php-curl
+   - php-mcrypt
+   - php-common
+   - php-gd
+   - phpunit
+
+- name: tweak php.ini configuration (fpm)
+  lineinfile: 
+    dest: /etc/php/7.0/cli/php.ini
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backup: yes
+    backrefs: yes
+  with_items:
+    - { regexp: '^max_execution_time =', line: 'max_execution_time = 600' }
+    - { regexp: '^memory_limit =', line: 'memory_limit = 512M' }
+    - { regexp: '^error_reporting =', line: 'error_reporting = E_ALL' }
+    - { regexp: '^display_errors =', line: 'display_errors = On' }
+    - { regexp: '^display_startup_errors', line: 'display_startup_errors = On' }
+    - { regexp: '^post_max_size =', line: 'post_max_size = 128M' }
+    - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
+    - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
+
+- name: tweak php.ini configuration (cli)
+  lineinfile: 
+    dest: /etc/php/7.0/fpm/php.ini
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backup: yes
+    backrefs: yes
+  with_items:
+    - { regexp: '^max_execution_time =', line: 'max_execution_time = 600' }
+    - { regexp: '^memory_limit =', line: 'memory_limit = 512M' }
+    - { regexp: '^error_reporting =', line: 'error_reporting = E_ALL' }
+    - { regexp: '^display_errors =', line: 'display_errors = On' }
+    - { regexp: '^display_startup_errors', line: 'display_startup_errors = On' }
+    - { regexp: '^post_max_size =', line: 'post_max_size = 128M' }
+    - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
+    - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
+  notify:
+    - restart php-fpm

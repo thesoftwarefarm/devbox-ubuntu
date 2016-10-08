@@ -1,0 +1,23 @@
+---
+
+- name: download wkhtmltox archive
+  get_url: url="{{ wkhtmltox.src }}" dest=/tmp/wkhtmltox-archive
+
+- name: create /tmp/wkhtmltox directory
+  file: path=/tmp/wkhtmltox state=directory
+
+- name: unpack wkhtmltox archive
+  unarchive: src=/tmp/wkhtmltox-archive dest=/tmp/wkhtmltox copy=no
+
+- name: move binaries to /usr/local/bin
+  command: mv /tmp/wkhtmltox/wkhtmltox/bin/{{ item }} /usr/local/bin/{{ item }} 
+  with_items:
+    - wkhtmltopdf
+    - wkhtmltoimage
+  # TODO compare old/new checksums and only overwrite if necessary  
+
+- name: clean up
+  file: path={{ item }} state=absent    
+  with_items:
+    - /tmp/wkhtmltox-archive
+    - /tmp/wkhtmltox

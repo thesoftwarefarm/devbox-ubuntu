@@ -1,0 +1,22 @@
+---
+- name: install MySQL
+  apt: pkg={{ item }} state=latest update_cache=true
+  with_items:
+  - mysql-server
+  - mysql-client
+  - python-mysqldb
+  register: mysql
+  notify:
+    - restart mysql
+
+- name: set MySQL root password
+  mysql_user: name=root host={{ item }} check_implicit_admin=yes password=vagrant login_user=root login_password=vagrant
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost    
+  when: mysql.changed
+
+# run this as root within mysql
+# ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'vagrant';

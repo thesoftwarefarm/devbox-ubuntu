@@ -1,0 +1,20 @@
+- name: check if Composer is installed
+  stat: path=/usr/local/bin/composer
+  register: composer_bin
+
+- name: install Composer
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin creates=/usr/local/bin/composer
+  when: not composer_bin.stat.exists
+
+- name: rename composer.phar to composer
+  shell: mv /usr/local/bin/composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+  when: not composer_bin.stat.exists
+
+- name: make Composer executable
+  shell: chmod a+x /usr/local/bin/composer
+  when: not composer_bin.stat.exists
+
+- name: composer self update
+  shell: composer self-update
+  register: composer_self_update
+  changed_when: "composer_self_update.stdout != ''"

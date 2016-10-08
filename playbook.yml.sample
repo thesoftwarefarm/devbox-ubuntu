@@ -1,0 +1,43 @@
+---
+-
+  hosts: all
+
+  become: true
+
+  user: vagrant
+
+  roles:
+    - .provisioning/system
+    - .provisioning/nginx
+    - .provisioning/php7-fpm
+    - .provisioning/mysql-official-latest
+    - .provisioning/composer
+    - .provisioning/wkhtmltox
+    - .provisioning/redis
+    - .provisioning/beanstalk
+    - .provisioning/supervisor
+
+  vars:
+
+    vagrantfile:
+      box: "bento/ubuntu-16.04"
+      hostname: "devbox"
+      network:
+        bridge: "en0: Ethernet"
+      provider:
+        vb:
+          memory: "2048"  
+      provision:
+        ansible:
+          verbose: "vv"  
+      synced_folder:
+        source: "/Users/ionutantohi/projects"
+        target: "/var/www/html" 
+
+    system:
+      public_ip: "192.168.10.125"
+      private_ip: "192.168.33.40"
+      timezone: 'Europe/Bucharest'
+
+    vhosts:
+    - {name: "returnjet.dev", document_root: "/var/www/html/returnjet-bms/public"}
