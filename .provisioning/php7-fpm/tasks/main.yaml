@@ -11,6 +11,7 @@
    - php-mbstring
    - php-common
    - php-gd
+   - php-soap
    - phpunit
 
 - name: tweak php.ini configuration (fpm)
