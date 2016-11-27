@@ -17,7 +17,7 @@ Includes:
 
 ## Installation
 
-Assuming you already have Vagrant and Virtualbox installed.
+!!! Assuming you already have the latest versions of Vagrant and Virtualbox installed.
 
 ### Install Ansible
 
