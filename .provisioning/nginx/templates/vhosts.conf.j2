@@ -12,7 +12,7 @@ server {
 
         try_files $uri $uri/ /index.php?$query_string;
 
-        rewrite ^(.*\.(gif|GIF|jpe?g|JPE?G|png|PNG))$ /munee.php?files=/$1 last;
+        #rewrite ^(.*\.(gif|GIF|jpe?g|JPE?G|png|PNG))$ /munee.php?files=/$1 last;
     }
 
     location ~ /\.ht {
