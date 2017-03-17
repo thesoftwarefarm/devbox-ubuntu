@@ -29,16 +29,16 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: http_port_forward_guest, host: http_port_forward_host
 
   config.vm.network "public_network", ip: public_ip, bridge: network_bridge
-  
+
   config.vm.network "private_network", ip: private_ip
 
   config.vm.synced_folder synced_folder_source, synced_folder_target, type: "nfs", mount_options: ['rw', 'vers=3', 'tcp', 'fsc','actimeo=2']
-  
+
   config.vm.provider "virtualbox" do |vb|
     # vb.gui = true
     vb.memory = vb_memory
   end
-  
+
   # ansible provisioning
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = playbook
