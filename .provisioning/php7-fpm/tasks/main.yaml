@@ -12,6 +12,7 @@
    - php-common
    - php-gd
    - php-soap
+   - php-zip
    - phpunit
 
 - name: tweak php.ini configuration (fpm)
