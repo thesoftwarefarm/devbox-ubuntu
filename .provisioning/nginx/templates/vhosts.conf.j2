@@ -4,6 +4,8 @@ server {
     server_name {{item.name}};
     root {{item.document_root}};
 
+    client_max_body_size 128M;
+
     index index.html index.htm index.php;
 
     location / {
