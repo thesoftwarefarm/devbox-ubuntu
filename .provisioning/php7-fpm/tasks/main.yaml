@@ -13,6 +13,7 @@
    - php-gd
    - php-soap
    - php-zip
+   - php-bcmath
    - phpunit
 
 - name: tweak php.ini configuration (fpm)
