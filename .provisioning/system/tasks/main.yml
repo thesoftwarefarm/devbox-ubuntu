@@ -72,19 +72,3 @@
 
 - name: install language packs
   apt: name=language-pack-en state=latest
-
-- name: check if e extractor is installed
-  stat: path=/usr/local/bin/e
-  register: e_extractor_bin
-
-- name: install e extractor
-  shell: wget http://martin.ankerl.com/files/e
-  when: not e_extractor_bin.stat.exists
-
-- name: move e extractor
-  shell: mv e /usr/local/bin
-  when: not e_extractor_bin.stat.exists
-
-- name: make e extractor executable
-  shell: chmod a+x /usr/local/bin/e
-  when: not e_extractor_bin.stat.exists
