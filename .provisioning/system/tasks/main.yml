@@ -23,23 +23,6 @@
     - optipng
     - pv
 
-#- name: change hostname
-#  lineinfile: 
-#    dest: /etc/hostname
-#    regexp: "^vagrant.+$"
-#    line: "webdev"
-#    backup: no
-#    backrefs: yes
-
-#- name: apply hostname
-#  command: /etc/init.d/hostname.sh start
-
-- name: cd to /vagrant
-  lineinfile: 
-    dest: /home/vagrant/.bashrc 
-    line: "cd /vagrant"
-    state: present
-
 - name: set vim as default editor
   command: update-alternatives --set editor /usr/bin/vim.basic
   changed_when: false
@@ -67,8 +50,8 @@
     backup: yes
   changed_when: false
 
-- lineinfile: dest=/home/vagrant/.bashrc line='export LC_ALL="en_US.UTF-8"'
-- lineinfile: dest=/home/vagrant/.bashrc line='export LANG="en_US.UTF-8"'
+- lineinfile: dest=/home/{{ ansible_user }}/.bashrc line='export LC_ALL="en_US.UTF-8"'
+- lineinfile: dest=/home/{{ ansible_user }}/.bashrc line='export LANG="en_US.UTF-8"'
 
 - name: install language packs
   apt: name=language-pack-en state=latest

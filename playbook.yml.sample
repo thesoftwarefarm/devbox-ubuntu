@@ -4,7 +4,7 @@
 
   become: true
 
-  user: vagrant
+  user: ubuntu
 
   roles:
     - .provisioning/system
@@ -20,7 +20,7 @@
   vars:
 
     vagrantfile:
-      box: "bento/ubuntu-16.04"
+      box: "ubuntu/xenial64"
       hostname: "devbox"
       network:
         bridge: "en0: Ethernet"
@@ -42,4 +42,5 @@
       timezone: 'Europe/Bucharest'
 
     vhosts:
-    - {name: "returnjet.dev", document_root: "/var/www/html/returnjet-bms/public"}
+    - {name: "network-live.dev", server_name: "network.bamboo.dev network-admin.bamboo.dev", document_root: "/var/www/html/network-live-tracer-bullets/public"}
+    - {name: "returnjet.dev", server_name: "returnjet.dev secure.returnjet.dev", document_root: "/var/www/html/returnjet-bms/public"}

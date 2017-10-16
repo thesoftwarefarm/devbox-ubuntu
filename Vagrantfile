@@ -37,12 +37,12 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |vb|
     # vb.gui = true
     vb.memory = vb_memory
+    vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
   end
 
   # ansible provisioning
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = playbook
-    ansible.sudo = true
     ansible.limit = "all"
     ansible.verbose = ansible_verbose
   end
