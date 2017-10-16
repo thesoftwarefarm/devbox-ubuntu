@@ -20,7 +20,7 @@ Includes:
 
 ### Install Ansible
 ```
-sudo easy_install pip && sudo pip install ansible && passlib && pip install --upgrade setuptools --user python
+sudo easy_install pip && sudo pip install ansible && pip install passlib && pip install --upgrade setuptools --user python
 ```
 ### Upgrade Ansible
 ```
