@@ -46,7 +46,7 @@ Change the `IP` in your `playbook.yml` file; pick an IP that is unique in your L
 
 Edit the `playbook.yml` file to specify vhosts. A vhost is described by a line like the following:
 ```
-- {name: "my-project", server_name: "my-project.dev admin.my-project.dev" document_root: "/var/www/my-project/public"}
+- {name: "my-project", server_name: "my-project.dev admin.my-project.dev", document_root: "/var/www/my-project/public"}
 ```
 
 ## Credentials
