@@ -1,4 +1,9 @@
 ---
+- name: update ubuntu user password
+  user:
+    name: ubuntu
+    password: "{{ 'vagrant'|password_hash('sha512') }}"
+    update_password: always
 
 - name: update apt cache
   apt: update_cache=yes
