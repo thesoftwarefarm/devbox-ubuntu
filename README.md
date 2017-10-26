@@ -56,7 +56,7 @@ user: `ubuntu`
 password: `vagrant`
 #### SSH 
 user: `ubuntu`  
-password: `vagrant`
+password: `password can be found in ~/.vagrand.d/boxes/####/9999999/virtualbox/Vagrantfile`
 
 
 ### Other considerations
