@@ -14,7 +14,11 @@
   shell: chmod a+x /usr/local/bin/composer
   when: not composer_bin.stat.exists
 
+- name: force https on packagist
+  shell: composer config --global repositories.packagist composer https://packagist.org
+
 - name: composer self update
   shell: composer self-update
   register: composer_self_update
   changed_when: "composer_self_update.stdout != ''"
+  

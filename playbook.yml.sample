@@ -9,6 +9,7 @@
   roles:
     - .provisioning/system
     - .provisioning/nginx
+    - .provisioning/vhosts
     - .provisioning/php7-fpm
     - .provisioning/mysql-official-latest
     - .provisioning/composer
