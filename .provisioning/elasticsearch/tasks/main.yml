@@ -1,0 +1,12 @@
+---
+
+- name: install elasticsearch
+  apt:
+    deb: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.0.deb"
+
+- name: just force systemd to reread configs
+  systemd: daemon_reload=yes
+
+- name: set elasticsearch to start on boot
+  systemd: name=elasticsearch enabled=yes state=started
+  
