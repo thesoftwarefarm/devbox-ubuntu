@@ -8,6 +8,7 @@
 
   roles:
     - .provisioning/system
+    - .provisioning/elasticsearch
     - .provisioning/nginx
     - .provisioning/vhosts
     - .provisioning/php7-fpm
