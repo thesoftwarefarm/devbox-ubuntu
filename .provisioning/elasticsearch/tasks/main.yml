@@ -9,4 +9,15 @@
 
 - name: set elasticsearch to start on boot
   systemd: name=elasticsearch enabled=yes state=started
+
+- name: tweak jvm.options configuration
+  lineinfile: 
+    dest: /etc/elasticsearch/jvm.options
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backup: yes
+    backrefs: yes
+  with_items:
+    - { regexp: '^-Xms1g', line: '-Xms128m' }
+    - { regexp: '^-Xmx1g', line: '-Xmx128m' }
   
