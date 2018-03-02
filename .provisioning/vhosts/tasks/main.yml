@@ -10,3 +10,10 @@
   with_items: "{{ vhosts }}"
   notify:
     - reload nginx
+
+- name: create /etc/hosts entries
+  lineinfile: 
+    dest: /etc/hosts
+    line: "127.0.0.1    {{ item.server_name }}"
+    state: present
+  with_items: "{{ vhosts }}"
