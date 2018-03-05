@@ -44,5 +44,16 @@
       timezone: 'Europe/Bucharest'
 
     vhosts:
-    - {name: "network-live.dev", server_name: "network.bamboo.dev network-admin.bamboo.dev", document_root: "/var/www/html/network-live-tracer-bullets/public"}
-    - {name: "returnjet.dev", server_name: "returnjet.dev secure.returnjet.dev", document_root: "/var/www/html/returnjet-bms/public"}
+      - name: network_live
+        server_name: "network.bamboo.localdev network-admin.bamboo.localdev"
+        document_root: "/var/www/html/network-live-tracer-bullets/public"
+      - name: returnjet
+        server_name: "returnjet.localdev secure.returnjet.localdev"
+        document_root: "/var/www/html/returnjet-bms/public"
+        supervisor:
+          project_root: "/var/www/html/returnjet-bms"
+          sleep: 1
+          tries: 3
+          queue: default
+          numprocs: 3
+          stdout_logfile: "/var/www/html/returnjet-bms/storage/logs/supervisor.log"
