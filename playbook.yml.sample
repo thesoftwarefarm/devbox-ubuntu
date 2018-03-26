@@ -8,16 +8,16 @@
 
   roles:
     - .provisioning/system
-    - .provisioning/elasticsearch
     - .provisioning/nginx
-    - .provisioning/vhosts
     - .provisioning/php7-fpm
     - .provisioning/mysql-official-latest
+    - .provisioning/elasticsearch
     - .provisioning/composer
-    - .provisioning/wkhtmltox
     - .provisioning/redis
+    - .provisioning/wkhtmltox
     - .provisioning/beanstalk
     - .provisioning/supervisor
+    - .provisioning/vhosts
 
   vars:
 
