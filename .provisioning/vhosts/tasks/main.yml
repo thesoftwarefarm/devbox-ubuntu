@@ -17,3 +17,10 @@
     line: "127.0.0.1    {{ item.server_name }}"
     state: present
   with_items: "{{ vhosts }}"
+
+- name: enable supervisor config
+  template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/{{item.name}}.conf
+  with_items: "{{ vhosts }}"
+  when: item.supervisor is defined
+  notify:
+    - reload supervisor

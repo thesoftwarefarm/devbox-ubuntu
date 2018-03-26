@@ -1,15 +1,6 @@
 - name: install supervisor
   apt: name=supervisor
-  notify:
-    - reload supervisor
 
 - name: set supervisor to start on boot
   systemd: name=supervisor enabled=yes state=started
-
-- name: enable supervisor config
-  template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/{{item.name}}.conf
-  with_items: "{{ vhosts }}"
-  when: item.supervisor is defined
-  notify:
-    - reload supervisor
-
+  
