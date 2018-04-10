@@ -16,21 +16,18 @@ vb_memory       = playbook_vars['vagrantfile']['provider']['vb']['memory']
 ansible_verbose = playbook_vars['vagrantfile']['provision']['ansible']['verbose']
 synced_folder_source = playbook_vars['vagrantfile']['synced_folder']['source']
 synced_folder_target = playbook_vars['vagrantfile']['synced_folder']['target']
-
-http_port_forward_guest = playbook_vars['vagrantfile']['http_port_forward']['quest']
-http_port_forward_host = playbook_vars['vagrantfile']['http_port_forward']['host']
+port_forward = playbook_vars['vagrantfile']['port_forward']
 
 Vagrant.configure(2) do |config|
 
   config.vm.box = box
-
   config.vm.hostname = hostname
-
-  config.vm.network "forwarded_port", guest: http_port_forward_guest, host: http_port_forward_host
-
   config.vm.network "public_network", ip: public_ip, bridge: network_bridge
-
   config.vm.network "private_network", ip: private_ip
+
+  port_forward.each do |port_guest, port_host|
+    config.vm.network "forwarded_port", guest: port_guest, host: port_host, auto_correct: true
+  end
 
   config.vm.synced_folder synced_folder_source, synced_folder_target, type: "nfs", mount_options: ['rw', 'vers=3', 'tcp', 'fsc','actimeo=2']
 

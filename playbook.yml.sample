@@ -35,9 +35,9 @@
       synced_folder:
         source: "/Users/ionutantohi/projects"
         target: "/var/www/html" 
-      http_port_forward: 
-        quest: 80
-        host: 8080
+      port_forward:
+          80: 8080
+          3306: 33060
     system:
       public_ip: "192.168.10.125"
       private_ip: "192.168.33.40"
