@@ -4,7 +4,7 @@ A Vagrant box with Ansible provisioner, based on Ubuntu 16.04 Xenial
 
 Includes:
 - nginx
-- php-fpm
+- php-fpm (7.0, 7.1, 7.2)
 - mysql-official-latest
 - composer
 - wkhtmltox
@@ -41,6 +41,10 @@ cp playbook.yml.sample playbook.yml
 Change the `IP` in your `playbook.yml` file; pick an IP that is unique in your LAN.
 
 ## Usage
+
+### PHP version
+
+Set the php version which you want to be installed by setting `system.php_version` in `playbook.yaml` to one of: 7.0, 7.1, 7.2
 
 ### Virtual hosts
 
