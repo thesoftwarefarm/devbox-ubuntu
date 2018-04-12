@@ -8,9 +8,6 @@
 - name: just force systemd to reread configs
   systemd: daemon_reload=yes
 
-- name: set elasticsearch to start on boot
-  systemd: name=elasticsearch enabled=yes state=started
-
 - name: tweak jvm.options configuration
   lineinfile: 
     dest: /etc/elasticsearch/jvm.options
@@ -21,4 +18,6 @@
   with_items:
     - { regexp: '^-Xms1g', line: '-Xms128m' }
     - { regexp: '^-Xmx1g', line: '-Xmx128m' }
-  
+
+- name: restart elasticsearch
+  service: name=elasticsearch enabled=yes state=restarted
