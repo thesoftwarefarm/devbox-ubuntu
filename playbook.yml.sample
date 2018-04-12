@@ -39,8 +39,8 @@
           80: 8080
           3306: 33060
     system:
-      public_ip: "192.168.10.125"
-      private_ip: "192.168.33.40"
+      public_ip: "192.168.0.40"
+      private_ip: "192.168.1.40"
       timezone: 'Europe/Bucharest'
       php_version: "7.0"
 
