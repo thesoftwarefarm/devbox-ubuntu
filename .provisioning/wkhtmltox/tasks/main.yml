@@ -1,5 +1,3 @@
----
-
 - name: download wkhtmltox archive
   get_url: url="{{ wkhtmltox.src }}" dest=/tmp/wkhtmltox-archive
 

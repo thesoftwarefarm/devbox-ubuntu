@@ -1,23 +1,22 @@
----
-
-- name: install php-fpm
+- name: install php7.0-fpm
   apt: pkg={{ item }} state=installed update_cache=true
   with_items:
-   - php-fpm
-   - php-cli
-   - php-mysql
-   - php-curl
-   - php-mcrypt
-   - php-mbstring
-   - php-common
-   - php-gd
-   - php-soap
-   - php-zip
-   - php-bcmath
-   - phpunit
+   - php7.0-fpm
+   - php7.0-cli
+   - php7.0-mysql
+   - php7.0-curl
+   - php7.0-mcrypt
+   - php7.0-mbstring
+   - php7.0-common
+   - php7.0-gd
+   - php7.0-soap
+   - php7.0-zip
+   - php7.0-bcmath
+   - php7.0-xml
+   - php7.0-sqlite3
 
-- name: tweak php.ini configuration (fpm)
-  lineinfile: 
+- name: tweak php.ini configuration (cli)
+  lineinfile:
     dest: /etc/php/7.0/cli/php.ini
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -33,8 +32,8 @@
     - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
     - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
 
-- name: tweak php.ini configuration (cli)
-  lineinfile: 
+- name: tweak php.ini configuration (fpm)
+  lineinfile:
     dest: /etc/php/7.0/fpm/php.ini
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -49,5 +48,6 @@
     - { regexp: '^post_max_size =', line: 'post_max_size = 128M' }
     - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
     - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
-  notify:
-    - restart php-fpm
+
+- name: restart php7.0-fpm
+  service: name=php7.0-fpm enabled=yes state=restarted

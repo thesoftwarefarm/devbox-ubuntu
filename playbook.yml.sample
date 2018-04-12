@@ -8,8 +8,8 @@
 
   roles:
     - .provisioning/system
+    - .provisioning/php-fpm
     - .provisioning/nginx
-    - .provisioning/php7-fpm
     - .provisioning/mysql-official-latest
     - .provisioning/elasticsearch
     - .provisioning/composer
@@ -42,6 +42,7 @@
       public_ip: "192.168.10.125"
       private_ip: "192.168.33.40"
       timezone: 'Europe/Bucharest'
+      php_version: "7.0"
 
     vhosts:
       - name: network_live

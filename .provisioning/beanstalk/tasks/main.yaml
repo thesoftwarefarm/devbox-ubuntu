@@ -1,4 +1,5 @@
 - name: install beanstalkd
   apt: name=beanstalkd
-  notify:
-    - reload beanstalkd
+
+- name: reload beanstalkd
+  service: name=beanstalkd state=started

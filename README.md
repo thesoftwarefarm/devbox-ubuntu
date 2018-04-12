@@ -4,7 +4,7 @@ A Vagrant box with Ansible provisioner, based on Ubuntu 16.04 Xenial
 
 Includes:
 - nginx
-- php7-fpm
+- php-fpm
 - mysql-official-latest
 - composer
 - wkhtmltox
@@ -20,7 +20,7 @@ Includes:
 
 ### Install Ansible
 ```
-sudo easy_install pip && sudo pip install ansible && pip install passlib && pip install --upgrade setuptools --user python
+sudo easy_install pip && sudo pip install ansible && pip install --upgrade setuptools --user python
 ```
 ### Upgrade Ansible
 ```
@@ -45,19 +45,38 @@ Change the `IP` in your `playbook.yml` file; pick an IP that is unique in your L
 ### Virtual hosts
 
 Edit the `playbook.yml` file to specify vhosts. A vhost is described by a line like the following:
+
+The `supervisor` option is optional. Add it if the project has queues implemented
 ```
-- {name: "my-project", server_name: "my-project.dev admin.my-project.dev", document_root: "/var/www/my-project/public"}
+- name: project_1
+    server_name: "project_1.localdev api.project_1.localdev"
+    document_root: "/var/www/html/project_1/public"
+- name: project_2
+    server_name: "project_2.localdev api.project_2.localdev"
+    document_root: "/var/www/html/project_2/public"
+    supervisor:
+        project_root: "/var/www/html/project_2"
+        sleep: 1
+        tries: 3
+        queue: default
+        numprocs: 3
+        stdout_logfile: "/var/www/html/project_2/storage/logs/supervisor.log"
 ```
 
 ## Credentials
 
 #### MySQL
-user: `ubuntu`  
-password: `vagrant`
+User: `ubuntu`  
+Password: `vagrant`
 #### SSH 
-user: `ubuntu`  
-password: `password can be found in ~/.vagrand.d/boxes/####/9999999/virtualbox/Vagrantfile`
 
+Via private key located in `.vagrant/machines/default/virtualbox/private_key` 
+
+User: `ubuntu`
+```
+cd PATH_TO_BOX
+ssh ubuntu@VAGRANT_IP -i .vagrant/machines/default/virtualbox/private_key
+```
 
 ### Other considerations
 

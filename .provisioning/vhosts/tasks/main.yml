@@ -8,8 +8,9 @@
         state=link
         force=yes
   with_items: "{{ vhosts }}"
-  notify:
-    - reload nginx
+
+- name: reload nginx
+  service: name=nginx enabled=yes state=restarted
 
 - name: create /etc/hosts entries
   lineinfile: 
@@ -22,5 +23,6 @@
   template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/{{item.name}}.conf
   with_items: "{{ vhosts }}"
   when: item.supervisor is defined
-  notify:
-    - reload supervisor
+
+- name: reload supervisor
+  service: name=supervisor state=restarted
