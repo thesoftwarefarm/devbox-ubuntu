@@ -1,5 +1,13 @@
 - name: install beanstalkd
   apt: name=beanstalkd
 
+- name: bind beanstalkd remote address
+  lineinfile: 
+    dest: /etc/default/beanstalkd
+    regexp: '^BEANSTALKD_LISTEN_ADDR'
+    line: "BEANSTALKD_LISTEN_ADDR=0.0.0.0"
+    backup: yes
+    backrefs: yes
+
 - name: reload beanstalkd
-  service: name=beanstalkd state=started
+  service: name=beanstalkd state=restarted
