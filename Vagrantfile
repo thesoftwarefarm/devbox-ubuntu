@@ -25,8 +25,10 @@ Vagrant.configure(2) do |config|
   config.vm.network "public_network", ip: public_ip, bridge: network_bridge
   config.vm.network "private_network", ip: private_ip
 
-  port_forward.each do |port_guest, port_host|
-    config.vm.network "forwarded_port", guest: port_guest, host: port_host, auto_correct: true
+  if port_forward
+    port_forward.each do |port_guest, port_host|
+      config.vm.network "forwarded_port", guest: port_guest, host: port_host, auto_correct: true
+    end
   end
 
   config.vm.synced_folder synced_folder_source, synced_folder_target, type: "nfs", mount_options: ['rw', 'vers=3', 'tcp', 'fsc','actimeo=2']
