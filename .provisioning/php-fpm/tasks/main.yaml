@@ -1,1 +1,44 @@
 - include_tasks: "php{{ system.php_version }}-fpm.yaml"
+
+# Install PHP dependecies for SQL Server
+- name: install unixodbc
+  apt: name=unixodbc-dev state=present
+
+- name: install SQL Server php modules
+  pear: name={{ item }} 
+  with_items:
+   - pecl/sqlsrv
+   - pecl/pdo_sqlsrv
+
+- name: create SQL Server php configuration files
+  template: src=php-mod.conf.j2 dest=/etc/php/{{system.php_version}}/mods-available/{{item}}.ini
+  with_items:
+    - sqlsrv
+    - pdo_sqlsrv
+
+- name: enable SQL Server php modules
+  shell: phpenmod {{ item }} 
+  with_items:
+   - sqlsrv
+   - pdo_sqlsrv
+
+- name: Add Microsoft APT KEY
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+
+- name: Add Microsoft repo
+  get_url:
+    url: https://packages.microsoft.com/config/ubuntu/16.04/prod.list
+    dest: /etc/apt/sources.list.d/mssql-tools.list
+
+- name: update apt cache
+  apt: update_cache=yes
+
+- name: install msodbcsql17
+  apt: pkg=msodbcsql17 state=present
+  environment:
+    ACCEPT_EULA: Y
+
+- name: restart php{{system.php_version}}-fpm
+  systemd: name=php{{system.php_version}}-fpm enabled=yes state=restarted

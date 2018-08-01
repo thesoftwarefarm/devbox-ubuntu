@@ -1,5 +1,5 @@
 - name: install php7.0-fpm
-  apt: pkg={{ item }} state=installed update_cache=true
+  apt: pkg={{ item }} state=present update_cache=true
   with_items:
    - php7.0-fpm
    - php7.0-cli
@@ -14,6 +14,8 @@
    - php7.0-bcmath
    - php7.0-xml
    - php7.0-sqlite3
+   - php7.0-dev
+   - php7.0-odbc
 
 - name: tweak php.ini configuration (cli)
   lineinfile:
@@ -48,6 +50,4 @@
     - { regexp: '^post_max_size =', line: 'post_max_size = 128M' }
     - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
     - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
-
-- name: restart php7.0-fpm
-  service: name=php7.0-fpm enabled=yes state=restarted
+    

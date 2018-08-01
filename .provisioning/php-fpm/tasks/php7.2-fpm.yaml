@@ -3,7 +3,7 @@
     update_cache: 'yes'
 
 - name: install php-fpm
-  apt: pkg={{ item }} state=installed update_cache=true
+  apt: pkg={{ item }} state=present update_cache=true
   with_items:
    - php7.2-fpm
    - php7.2-cli
@@ -17,6 +17,8 @@
    - php7.2-bcmath
    - php7.2-xml
    - php7.2-sqlite3
+   - php7.2-dev
+   - php7.2-odbc
 
 - name: tweak php.ini configuration (cli)
   lineinfile:
@@ -51,6 +53,4 @@
     - { regexp: '^post_max_size =', line: 'post_max_size = 128M' }
     - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
     - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
-
-- name: restart php7.2-fpm
-  service: name=php7.2-fpm enabled=yes state=restarted
+    
