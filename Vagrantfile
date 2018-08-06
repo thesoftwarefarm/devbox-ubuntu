@@ -35,6 +35,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provider "virtualbox" do |vb|
     # vb.gui = true
+    vb.name = hostname
     vb.memory = vb_memory
     vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
   end
