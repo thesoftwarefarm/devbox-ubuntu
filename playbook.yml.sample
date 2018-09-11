@@ -9,6 +9,7 @@
   roles:
     - .provisioning/system
     - .provisioning/php-fpm
+    - .provisioning/php-mods/sqlsrv
     - .provisioning/nginx
     - .provisioning/mysql-official-latest
     - .provisioning/elasticsearch
