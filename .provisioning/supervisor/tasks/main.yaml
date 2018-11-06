@@ -1,6 +1,0 @@
-- name: install supervisor
-  apt: name=supervisor
-
-- name: set supervisor to start on boot
-  systemd: name=supervisor enabled=yes state=started
-  
