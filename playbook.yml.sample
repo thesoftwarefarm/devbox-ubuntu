@@ -17,7 +17,6 @@
     - .provisioning/redis
     - .provisioning/wkhtmltox
     - .provisioning/beanstalk
-    - .provisioning/supervisor
     - .provisioning/vhosts
 
   vars:
