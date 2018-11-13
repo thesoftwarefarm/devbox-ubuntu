@@ -11,6 +11,7 @@ Includes:
 - redis
 - beanstalk
 - supervisor
+- elasticsearch(1.7, 6.4)
 - various system tools: curl, wget, git, mc etc.
 
 ## Installation
@@ -45,6 +46,10 @@ Change the `IP` in your `playbook.yml` file; pick an IP that is unique in your L
 ### PHP version
 
 Set the php version which you want to be installed by setting `system.php_version` in `playbook.yaml` to one of: 7.0, 7.1, 7.2
+
+### Elasticsearch version
+
+Set the elasticsearch version which you want to be installed by setting `system.elasticsearch_version` in `playbook.yaml` to one of: 1.7, 6.4
 
 ### Virtual hosts
 

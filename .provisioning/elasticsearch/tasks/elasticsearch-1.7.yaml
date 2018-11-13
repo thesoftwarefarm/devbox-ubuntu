@@ -1,0 +1,3 @@
+- name: install elasticsearch
+  apt:
+    deb: "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.6.deb"
