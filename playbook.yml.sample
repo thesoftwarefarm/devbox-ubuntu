@@ -10,13 +10,10 @@
     - .provisioning/system
     - .provisioning/php-fpm
     - .provisioning/php-mods/sqlsrv
-    - .provisioning/nginx
     - .provisioning/mysql-official-latest
     - .provisioning/elasticsearch
     - .provisioning/composer
-    - .provisioning/redis
     - .provisioning/wkhtmltox
-    - .provisioning/beanstalk
     - .provisioning/vhosts
 
   vars:
