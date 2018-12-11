@@ -1,4 +1,4 @@
 - include_tasks: "php{{ system.php_version }}-fpm.yaml"
 
 - name: restart php{{system.php_version}}-fpm
-  systemd: name=php{{system.php_version}}-fpm enabled=yes state=restarted
+  service: name=php{{system.php_version}}-fpm enabled=yes state=restarted

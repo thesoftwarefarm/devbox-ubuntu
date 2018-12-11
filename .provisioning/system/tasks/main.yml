@@ -61,7 +61,7 @@
     - 'LC_ALL="en_US.UTF-8"'
 
 - name: set supervisor to start on boot
-  systemd: name=supervisor enabled=yes state=started
+  service: name=supervisor enabled=yes state=started
 
 - name: bind beanstalkd remote address
   lineinfile: 

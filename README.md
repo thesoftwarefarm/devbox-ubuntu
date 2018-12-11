@@ -4,7 +4,7 @@ A Vagrant box with Ansible provisioner, based on Ubuntu 16.04 Xenial
 
 Includes:
 - nginx
-- php-fpm (7.0, 7.1, 7.2)
+- php-fpm (5.6, 7.0, 7.1, 7.2) 5.6 can be installed only on ubuntu14
 - mysql-official-latest
 - composer
 - wkhtmltox
@@ -45,7 +45,9 @@ Change the `IP` in your `playbook.yml` file; pick an IP that is unique in your L
 
 ### PHP version
 
-Set the php version which you want to be installed by setting `system.php_version` in `playbook.yaml` to one of: 7.0, 7.1, 7.2
+Set the php version which you want to be installed by setting `system.php_version` in `playbook.yaml` to one of: 5.6, 7.0, 7.1, 7.2. 
+
+Note: php 5.6 can be installed only on ubuntu 14
 
 ### Elasticsearch version
 
