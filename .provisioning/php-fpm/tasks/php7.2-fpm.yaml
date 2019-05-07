@@ -1,8 +1,4 @@
-- apt_repository:
-    repo: 'ppa:ondrej/php'
-    update_cache: 'yes'
-
-- name: install php-fpm
+- name: install php7.2-fpm
   apt: pkg={{ item }} state=present update_cache=true
   with_items:
    - php7.2-fpm
@@ -19,38 +15,3 @@
    - php7.2-sqlite3
    - php7.2-dev
    - php7.2-odbc
-
-- name: tweak php.ini configuration (cli)
-  lineinfile:
-    dest: /etc/php/7.2/cli/php.ini
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    backup: yes
-    backrefs: yes
-  with_items:
-    - { regexp: '^max_execution_time =', line: 'max_execution_time = 600' }
-    - { regexp: '^memory_limit =', line: 'memory_limit = 512M' }
-    - { regexp: '^error_reporting =', line: 'error_reporting = E_ALL' }
-    - { regexp: '^display_errors =', line: 'display_errors = On' }
-    - { regexp: '^display_startup_errors', line: 'display_startup_errors = On' }
-    - { regexp: '^post_max_size =', line: 'post_max_size = 128M' }
-    - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
-    - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
-
-- name: tweak php.ini configuration (fpm)
-  lineinfile:
-    dest: /etc/php/7.2/fpm/php.ini
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    backup: yes
-    backrefs: yes
-  with_items:
-    - { regexp: '^max_execution_time =', line: 'max_execution_time = 600' }
-    - { regexp: '^memory_limit =', line: 'memory_limit = 512M' }
-    - { regexp: '^error_reporting =', line: 'error_reporting = E_ALL' }
-    - { regexp: '^display_errors =', line: 'display_errors = On' }
-    - { regexp: '^display_startup_errors', line: 'display_startup_errors = On' }
-    - { regexp: '^post_max_size =', line: 'post_max_size = 128M' }
-    - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
-    - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
-    

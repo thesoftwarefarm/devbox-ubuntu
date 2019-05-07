@@ -1,6 +1,23 @@
-# Install PHP dependecies for SQL Server
-- name: install unixodbc
-  apt: name=unixodbc-dev state=present
+- name: Add Microsoft APT KEY
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+
+- name: Add Microsoft repo
+  get_url:
+    url: https://packages.microsoft.com/config/ubuntu/{{ansible_distribution_version}}/prod.list
+    dest: /etc/apt/sources.list.d/mssql-release.list
+
+- name: update apt cache
+  apt: update_cache=yes
+
+- name: install SQL Server dependencies
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - unixodbc-dev
+    - msodbcsql17
+  environment:
+    ACCEPT_EULA: Y
 
 - name: install SQL Server php modules
   pear: name={{ item }} 
@@ -20,20 +37,5 @@
    - sqlsrv
    - pdo_sqlsrv
 
-- name: Add Microsoft APT KEY
-  apt_key:
-    url: https://packages.microsoft.com/keys/microsoft.asc
-    state: present
-
-- name: Add Microsoft repo
-  get_url:
-    url: https://packages.microsoft.com/config/ubuntu/16.04/prod.list
-    dest: /etc/apt/sources.list.d/mssql-tools.list
-
-- name: update apt cache
-  apt: update_cache=yes
-
-- name: install msodbcsql17
-  apt: pkg=msodbcsql17 state=present
-  environment:
-    ACCEPT_EULA: Y
+- name: restart php{{system.php_version}}-fpm
+  service: name=php{{system.php_version}}-fpm enabled=yes state=restarted

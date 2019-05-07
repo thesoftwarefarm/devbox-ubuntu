@@ -45,5 +45,6 @@ Vagrant.configure(2) do |config|
     ansible.playbook = playbook
     ansible.limit = "all"
     ansible.verbose = ansible_verbose
+    ansible.extra_vars = { ansible_python_interpreter: "python3" }
   end
 end

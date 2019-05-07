@@ -7,7 +7,6 @@
     - curl
     - wget
     - build-essential
-    - python-software-properties
     - bash-completion
     - vim
     - git
