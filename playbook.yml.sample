@@ -11,24 +11,25 @@
     - .provisioning/php-fpm
     - .provisioning/php-mods/sqlsrv
     - .provisioning/mysql-official-latest
-    - .provisioning/elasticsearch
     - .provisioning/composer
+    - .provisioning/elasticsearch
     - .provisioning/wkhtmltox
     - .provisioning/vhosts
 
-  vars:
+# Box options
+# -----------
+# Ubuntu 16.04 LTS: ubuntu/xenial64
+# Ubuntu 18.04 LTS: ubuntu/bionic64
 
+  vars:
     vagrantfile:
       box: "ubuntu/xenial64"
-      hostname: "devbox"
+      hostname: "devbox-test"
+      memory: "2048"  
       network:
         bridge: "en0: Ethernet"
-      provider:
-        vb:
-          memory: "2048"  
-      provision:
-        ansible:
-          verbose: "vv"  
+        public_ip: "192.168.1.40"
+        private_ip: "192.168.2.40"
       synced_folder:
         source: "/Users/ionutantohi/projects"
         target: "/var/www/html" 
@@ -36,11 +37,9 @@
           80: 8080
           3306: 33060
     system:
-      public_ip: "192.168.0.40"
-      private_ip: "192.168.1.40"
       timezone: 'Europe/Bucharest'
-      php_version: "7.0"
-      elasticsearch_version: "6.4"
+      php_version: "7.0" # 5.6, 7.0, 7.1, 7.2
+      elasticsearch_version: "6.4" # 1.7, 6.4
 
     vhosts:
       - name: network_live
