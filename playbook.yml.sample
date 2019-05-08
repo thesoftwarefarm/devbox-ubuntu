@@ -16,7 +16,7 @@
     - .provisioning/vhosts
 
     # available only for php >= 7.1
-    - .provisioning/php-mods/sqlsrv
+    # - .provisioning/php-mods/sqlsrv
 
 # Box options
 # -----------
