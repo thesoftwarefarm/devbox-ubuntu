@@ -36,7 +36,7 @@ Vagrant.configure(2) do |config|
     ansible.verbose = "vv"
     
     if vars['box'] == 'ubuntu/bionic64'
-      ansible.extra_vars = { ansible_python_interpreter: "python3" }
+      # ansible.extra_vars = { ansible_python_interpreter: "/usr/bin/python3" }
     end
   end
 end

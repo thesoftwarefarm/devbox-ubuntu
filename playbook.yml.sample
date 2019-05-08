@@ -18,10 +18,10 @@
     # available only for php >= 7.1
     # - .provisioning/php-mods/sqlsrv
 
-# Box options
-# -----------
-# Ubuntu 16.04 LTS: ubuntu/xenial64
-# Ubuntu 18.04 LTS: ubuntu/bionic64
+  # Box options
+  # -----------
+  # Ubuntu 16.04 LTS: ubuntu/xenial64
+  # Ubuntu 18.04 LTS: ubuntu/bionic64
 
   vars:
     vagrantfile:
