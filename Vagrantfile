@@ -34,6 +34,9 @@ Vagrant.configure(2) do |config|
     ansible.playbook = playbook
     ansible.limit = "all"
     ansible.verbose = "vv"
-    ansible.extra_vars = { ansible_python_interpreter: "python3" }
+    
+    if vars['box'] == 'ubuntu/bionic64'
+      ansible.extra_vars = { ansible_python_interpreter: "python3" }
+    end
   end
 end
