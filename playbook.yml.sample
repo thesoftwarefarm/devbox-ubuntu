@@ -30,8 +30,8 @@
       memory: "2048"  
       network:
         bridge: "en0: Ethernet"
-        public_ip: "192.168.1.40"
-        private_ip: "192.168.2.40"
+        public_ip: "192.168.0.40"
+        private_ip: "192.168.1.40"
       synced_folder:
         source: "/path/to/projects"
         target: "/var/www/html" 
