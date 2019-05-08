@@ -9,12 +9,14 @@
   roles:
     - .provisioning/system
     - .provisioning/php-fpm
-    - .provisioning/php-mods/sqlsrv
     - .provisioning/mysql-official-latest
     - .provisioning/composer
     - .provisioning/elasticsearch
     - .provisioning/wkhtmltox
     - .provisioning/vhosts
+
+    # available only for php >= 7.1
+    - .provisioning/php-mods/sqlsrv
 
 # Box options
 # -----------
@@ -31,14 +33,14 @@
         public_ip: "192.168.1.40"
         private_ip: "192.168.2.40"
       synced_folder:
-        source: "/Users/ionutantohi/projects"
+        source: "/path/to/projects"
         target: "/var/www/html" 
       port_forward:
           80: 8080
           3306: 33060
     system:
       timezone: 'Europe/Bucharest'
-      php_version: "7.0" # 5.6, 7.0, 7.1, 7.2
+      php_version: "7.2" # 5.6, 7.0, 7.1, 7.2
       elasticsearch_version: "6.4" # 1.7, 6.4
 
     vhosts:
