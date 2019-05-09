@@ -9,50 +9,51 @@
   roles:
     - .provisioning/system
     - .provisioning/php-fpm
-    - .provisioning/php-mods/sqlsrv
     - .provisioning/mysql-official-latest
-    - .provisioning/elasticsearch
     - .provisioning/composer
+    - .provisioning/elasticsearch
     - .provisioning/wkhtmltox
     - .provisioning/vhosts
 
-  vars:
+    # available only for php >= 7.1
+    # - .provisioning/php-mods/sqlsrv
 
+  # Box options
+  # -----------
+  # Ubuntu 16.04 LTS: ubuntu/xenial64
+  # Ubuntu 18.04 LTS: ubuntu/bionic64
+
+  vars:
     vagrantfile:
       box: "ubuntu/xenial64"
-      hostname: "devbox"
+      hostname: "devbox-test"
+      memory: "2048"  
       network:
         bridge: "en0: Ethernet"
-      provider:
-        vb:
-          memory: "2048"  
-      provision:
-        ansible:
-          verbose: "vv"  
+        public_ip: "192.168.0.40"
+        private_ip: "192.168.1.40"
       synced_folder:
-        source: "/Users/ionutantohi/projects"
+        source: "/path/to/projects"
         target: "/var/www/html" 
       port_forward:
           80: 8080
           3306: 33060
     system:
-      public_ip: "192.168.0.40"
-      private_ip: "192.168.1.40"
       timezone: 'Europe/Bucharest'
-      php_version: "7.0"
-      elasticsearch_version: "6.4"
+      php_version: "7.2" # 5.6, 7.0, 7.1, 7.2
+      elasticsearch_version: "6.4" # 1.7, 6.4
 
     vhosts:
-      - name: network_live
-        server_name: "network.bamboo.localdev network-admin.bamboo.localdev"
-        document_root: "/var/www/html/network-live-tracer-bullets/public"
-      - name: returnjet
-        server_name: "returnjet.localdev secure.returnjet.localdev"
-        document_root: "/var/www/html/returnjet-bms/public"
+      - name: project_1
+        server_name: "project_1.localdev api.project_1.localdev"
+        document_root: "/var/www/html/project_1/public"
+      - name: project_2
+        server_name: "project_2.localdev api.project_2.localdev"
+        document_root: "/var/www/html/project_2/public"
         supervisor:
-          project_root: "/var/www/html/returnjet-bms"
-          sleep: 1
-          tries: 3
-          queue: default
-          numprocs: 3
-          stdout_logfile: "/var/www/html/returnjet-bms/storage/logs/supervisor.log"
+          project_root: "/var/www/html/project_2"
+          commands:
+            - name: queue
+              command: php artisan queue:work --sleep=1 --tries=3 --daemon --queue=default
+              numprocs: 3
+              stdout_logfile: "/var/www/html/project_2/storage/logs/supervisor.log"

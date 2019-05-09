@@ -4,39 +4,28 @@
 require 'yaml'
 
 # read vars from playbook
-playbook        = File.dirname(__FILE__) + "/playbook.yml"
-playbook_vars   = YAML.load_file(playbook)[0]["vars"]
-public_ip       = playbook_vars['system']['public_ip']
-private_ip      = playbook_vars['system']['private_ip']
-box             = playbook_vars['vagrantfile']['box']
-use_nfs         = playbook_vars['vagrantfile']['use_nfs']
-hostname        = playbook_vars['vagrantfile']['hostname']
-network_bridge  = playbook_vars['vagrantfile']['network']['bridge']
-vb_memory       = playbook_vars['vagrantfile']['provider']['vb']['memory']
-ansible_verbose = playbook_vars['vagrantfile']['provision']['ansible']['verbose']
-synced_folder_source = playbook_vars['vagrantfile']['synced_folder']['source']
-synced_folder_target = playbook_vars['vagrantfile']['synced_folder']['target']
-port_forward = playbook_vars['vagrantfile']['port_forward']
+playbook = File.dirname(__FILE__) + "/playbook.yml"
+vars = YAML.load_file(playbook)[0]['vars']['vagrantfile']
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = box
-  config.vm.hostname = hostname
-  config.vm.network "public_network", ip: public_ip, bridge: network_bridge
-  config.vm.network "private_network", ip: private_ip
+  config.vm.box = vars['box']
+  config.vm.hostname = vars['hostname']
+  config.vm.network "public_network", ip: vars['network']['public_ip'], bridge: vars['network']['bridge']
+  config.vm.network "private_network", ip: vars['network']['private_ip']
 
-  if port_forward
-    port_forward.each do |port_guest, port_host|
+  if vars['port_forward']
+    vars['port_forward'].each do |port_guest, port_host|
       config.vm.network "forwarded_port", guest: port_guest, host: port_host, auto_correct: true
     end
   end
 
-  config.vm.synced_folder synced_folder_source, synced_folder_target, type: "nfs", mount_options: ['rw', 'vers=3', 'tcp', 'fsc','actimeo=2']
+  config.vm.synced_folder vars['synced_folder']['source'], vars['synced_folder']['target'], type: "nfs", mount_options: ['rw', 'vers=3', 'tcp', 'fsc','actimeo=2']
 
   config.vm.provider "virtualbox" do |vb|
     # vb.gui = true
-    vb.name = hostname
-    vb.memory = vb_memory
+    vb.name = vars['hostname']
+    vb.memory = vars['memory']
     vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
   end
 
@@ -44,6 +33,10 @@ Vagrant.configure(2) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = playbook
     ansible.limit = "all"
-    ansible.verbose = ansible_verbose
+    ansible.verbose = "vv"
+    
+    if vars['box'] == 'ubuntu/bionic64'
+      # ansible.extra_vars = { ansible_python_interpreter: "/usr/bin/python3" }
+    end
   end
 end
