@@ -44,16 +44,16 @@
       elasticsearch_version: "6.4" # 1.7, 6.4
 
     vhosts:
-      - name: network_live
-        server_name: "network.bamboo.localdev network-admin.bamboo.localdev"
-        document_root: "/var/www/html/network-live-tracer-bullets/public"
-      - name: returnjet
-        server_name: "returnjet.localdev secure.returnjet.localdev"
-        document_root: "/var/www/html/returnjet-bms/public"
+      - name: project_1
+        server_name: "project_1.localdev api.project_1.localdev"
+        document_root: "/var/www/html/project_1/public"
+      - name: project_2
+        server_name: "project_2.localdev api.project_2.localdev"
+        document_root: "/var/www/html/project_2/public"
         supervisor:
-          project_root: "/var/www/html/returnjet-bms"
-          sleep: 1
-          tries: 3
-          queue: default
-          numprocs: 3
-          stdout_logfile: "/var/www/html/returnjet-bms/storage/logs/supervisor.log"
+          project_root: "/var/www/html/project_2"
+          commands:
+            - name: queue
+              command: php artisan queue:work --sleep=1 --tries=3 --daemon --queue=default
+              numprocs: 3
+              stdout_logfile: "/var/www/html/project_2/storage/logs/supervisor.log"

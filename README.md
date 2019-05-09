@@ -69,7 +69,9 @@ Set the elasticsearch version which you want to be installed by setting `system.
 
 Edit the `playbook.yml` file to specify vhosts. A vhost is described by a line like the following:
 
-The `supervisor` option is optional. Add it if the project has queues implemented
+The `supervisor` option is optional. Add it if the project has queues implemented.
+
+Multiple supervisor commands are supported.
 ```
 - name: project_1
     server_name: "project_1.localdev api.project_1.localdev"
@@ -78,12 +80,12 @@ The `supervisor` option is optional. Add it if the project has queues implemente
     server_name: "project_2.localdev api.project_2.localdev"
     document_root: "/var/www/html/project_2/public"
     supervisor:
-        project_root: "/var/www/html/project_2"
-        sleep: 1
-        tries: 3
-        queue: default
-        numprocs: 3
-        stdout_logfile: "/var/www/html/project_2/storage/logs/supervisor.log"
+      project_root: "/var/www/html/project_2"
+      commands:
+        - name: queue
+          command: php artisan queue:work --sleep=1 --tries=3 --daemon --queue=default
+          numprocs: 3
+          stdout_logfile: "/var/www/html/project_2/storage/logs/supervisor.log"
 ```
 
 ## Credentials

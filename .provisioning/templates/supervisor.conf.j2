@@ -1,9 +1,13 @@
-[program:{{item.name}}]
+{% for command in item.supervisor.commands%}
+[program:{{item.name}}-{{command.name}}]
 process_name=worker_%(process_num)02d
-command=php {{item.supervisor.project_root}}/artisan queue:work --sleep={{item.supervisor.sleep}} --tries={{item.supervisor.tries}} --daemon --queue={{item.supervisor.queue}}
-numprocs={{item.supervisor.numprocs}}
-stdout_logfile={{item.supervisor.stdout_logfile}}
+directory={{item.supervisor.project_root}}
+command={{command.command}}
+numprocs={{command.numprocs}}
+stdout_logfile={{command.stdout_logfile}}
 user=ubuntu
 autostart=true
 autorestart=true
 redirect_stderr=true
+
+{% endfor %}
