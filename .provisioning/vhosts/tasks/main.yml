@@ -22,7 +22,7 @@
 - name: enable supervisor config
   template: src=../templates/supervisor.conf.j2 dest=/etc/supervisor/conf.d/{{item.name}}.conf
   with_items: "{{ vhosts }}"
-  when: item.supervisor.commands is defined
+  when: item.supervisor is defined and item.supervisor.commands is defined
 
 - name: reload supervisor
   service: name=supervisor state=restarted
