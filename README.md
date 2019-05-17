@@ -8,6 +8,10 @@ A Vagrant box with Ansible provisioner
 - Ubuntu 16.04 LTS: ubuntu/xenial64
 - Ubuntu 18.04 LTS: ubuntu/bionic64
 
+##### Web server
+- nginx
+- apache
+
 ##### PHP
 - php5.6-fpm
 - php7.0-fpm
@@ -19,7 +23,6 @@ A Vagrant box with Ansible provisioner
 - 6.4
 
 ## Includes
-- nginx
 - mysql-official-latest
 - composer
 - wkhtmltox
@@ -56,6 +59,10 @@ cp playbook.yml.sample playbook.yml
 Change the `IP` in your `playbook.yml` file; pick an IP that is unique in your LAN.
 
 ## Usage
+
+##### Web server
+
+Choose to install `nginx` or `apache` by setting `system.php_version`
 
 ##### PHP version
 

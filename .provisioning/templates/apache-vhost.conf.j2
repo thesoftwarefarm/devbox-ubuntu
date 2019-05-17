@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    ServerAlias {{ item.server_name }}
+    DocumentRoot {{ item.document_root }}
+    <Directory {{ item.document_root }}>
+        Options -Indexes +FollowSymLinks +MultiViews
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/{{ item.name }}.error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ item.name }}.access.log combined
+</VirtualHost>
