@@ -1,4 +1,16 @@
-- include_tasks: "{{ system.web_server }}.yml"
+- name: copy virtual hosts
+  template: src=../templates/{{system.web_server}}-vhost.conf.j2 dest=/etc/{{system.web_server}}/sites-available/{{item.name}}.conf
+  with_items: "{{ vhosts }}"
+
+- name: create vhost simlink
+  file: path=/etc/{{system.web_server}}/sites-enabled/{{item.name}}.conf
+        src=/etc/{{system.web_server}}/sites-available/{{item.name}}.conf
+        state=link
+        force=yes
+  with_items: "{{ vhosts }}"
+
+- name: restart {{system.web_server}}
+  service: name={{system.web_server}} enabled=yes state=restarted
 
 - name: create /etc/hosts entries
   lineinfile: 

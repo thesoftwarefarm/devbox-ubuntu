@@ -6,7 +6,7 @@
 
 - name: install apache php-mod
   apt: name=libapache2-mod-php{{system.php_version}} state=latest
-  when: system.web_server == 'apache'
+  when: system.web_server == 'apache2'
 
 - name: tweak php.ini configuration (cli)
   lineinfile:

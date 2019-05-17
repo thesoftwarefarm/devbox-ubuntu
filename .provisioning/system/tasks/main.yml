@@ -25,9 +25,9 @@
   apt: name=nginx state=latest
   when: system.web_server == 'nginx'
 
-- name: install apache
+- name: install apache2
   apt: name=apache2 state=latest
-  when: system.web_server == 'apache'
+  when: system.web_server == 'apache2'
 
 - name: enable apache modules
   apache2_module: state=present name={{item}}
@@ -35,11 +35,11 @@
     - rewrite
     - ssl
     - actions
-  when: system.web_server == 'apache'
+  when: system.web_server == 'apache2'
 
 - name: restart apache
   service: name=apache2 enabled=yes state=restarted
-  when: system.web_server == 'apache'
+  when: system.web_server == 'apache2'
 
 - name: set vim as default editor
   command: update-alternatives --set editor /usr/bin/vim.basic

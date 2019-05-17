@@ -10,7 +10,7 @@ A Vagrant box with Ansible provisioner
 
 ##### Web server
 - nginx
-- apache
+- apache2
 
 ##### PHP
 - php5.6-fpm
@@ -62,7 +62,7 @@ Change the `IP` in your `playbook.yml` file; pick an IP that is unique in your L
 
 ##### Web server
 
-Choose to install `nginx` or `apache` by setting `system.php_version`
+Choose to install `nginx` or `apache2` by setting `system.web_server`
 
 ##### PHP version
 
