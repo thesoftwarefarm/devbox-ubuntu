@@ -18,6 +18,7 @@ A Vagrant box with Ansible provisioner
 - php7.1-fpm
 - php7.2-fpm
 - php7.3-fpm
+- php7.4-fpm
 
 ##### Elasticsearch
 - 1.7
