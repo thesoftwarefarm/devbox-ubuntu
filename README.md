@@ -120,5 +120,13 @@ The box will be provisioned on the first `vagrant up`; later, use `vagrant provi
 
 Additional software can be added to the provisioner by creating additional Ansible roles and specifying them in the `playbook.yml` file.
 
+### SSH Forward
+
+This box allows you to ssh to any server from vagrant using the host ssh key. The vagrant ssh key no longer requires to be added to servers.
+
+Please follow this to make the necessary settings on your host machine
+
+https://wildlyinaccurate.com/using-ssh-agent-forwarding-with-vagrant/
+
 ## Credit
 All thanks should be sent to @ep

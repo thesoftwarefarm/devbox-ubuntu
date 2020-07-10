@@ -14,6 +14,8 @@ Vagrant.configure(2) do |config|
   config.vm.network "public_network", ip: vars['network']['public_ip'], bridge: vars['network']['bridge']
   config.vm.network "private_network", ip: vars['network']['private_ip']
 
+  config.ssh.forward_agent = true
+
   if vars['port_forward']
     vars['port_forward'].each do |port_guest, port_host|
       config.vm.network "forwarded_port", guest: port_guest, host: port_host, auto_correct: true
