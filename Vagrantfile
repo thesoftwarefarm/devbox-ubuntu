@@ -28,6 +28,7 @@ Vagrant.configure(2) do |config|
     # vb.gui = true
     vb.name = vars['hostname']
     vb.memory = vars['memory']
+    vb.cpus = 1
     vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
   end
 
