@@ -1,9 +1,11 @@
 - name: install MySQL
-  apt: pkg={{ item }} state=latest update_cache=true
-  with_items:
-  - mysql-server
-  - mysql-client
-  - python3-mysqldb
+  apt:
+    pkg:
+      - mysql-server
+      - mysql-client
+      - python3-mysqldb
+    state: latest
+    update_cache: true
 
 - name: add ubuntu user
   mysql_user:

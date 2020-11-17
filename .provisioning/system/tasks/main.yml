@@ -2,24 +2,25 @@
   apt: update_cache=yes
 
 - name: install system tools
-  apt: pkg={{ item }} state=latest
-  with_items:
-    - curl
-    - wget
-    - build-essential
-    - bash-completion
-    - vim
-    - git
-    - htop
-    - mc
-    - mcrypt
-    - tree
-    - pv
-    - sqlite3
-    - libsqlite3-dev
-    - supervisor
-    - beanstalkd
-    - redis-server
+  apt:
+    pkg:
+      - curl
+      - wget
+      - build-essential
+      - bash-completion
+      - vim
+      - git
+      - htop
+      - mc
+      - mcrypt
+      - tree
+      - pv
+      - sqlite3
+      - libsqlite3-dev
+      - supervisor
+      - beanstalkd
+      - redis-server
+    state: latest
 
 - name: install nginx
   apt: name=nginx state=latest
