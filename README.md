@@ -7,6 +7,7 @@ A Vagrant box with Ansible provisioner
 ##### Box
 - Ubuntu 16.04 LTS: ubuntu/xenial64
 - Ubuntu 18.04 LTS: ubuntu/bionic64
+- Ubuntu 20.04 LTS: ubuntu/focal64
 
 ##### Web server
 - nginx
@@ -19,6 +20,7 @@ A Vagrant box with Ansible provisioner
 - php7.2-fpm
 - php7.3-fpm
 - php7.4-fpm
+- php8.0-fpm
 
 ##### Elasticsearch
 - 1.7
