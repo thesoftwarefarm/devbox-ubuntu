@@ -50,9 +50,8 @@ sudo pip install --ignore-installed --upgrade ansible
 ```
 
 ### Clone this repository
-While in your Projects folder,
 ```
-git@gitlab.thesoftwarefarm.co.uk:thesoftwarefarm/devbox-ubuntu.git devbox
+git@github.com:thesoftwarefarm/devbox-ubuntu.git devbox
 ```
 
 ### Create a playbook from the given sample
