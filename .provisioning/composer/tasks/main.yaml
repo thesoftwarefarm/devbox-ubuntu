@@ -2,17 +2,29 @@
   stat: path=/usr/local/bin/composer
   register: composer_bin
 
+- name: download composer
+  get_url:
+    url: https://getcomposer.org/installer
+    dest: /tmp/composer-installer
+  when: not composer_bin.stat.exists
+
 - name: install Composer
-  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin creates=/usr/local/bin/composer
+  shell: php /tmp/composer-installer --install-dir=/usr/local/bin creates=/usr/local/bin/composer
   when: not composer_bin.stat.exists
 
 - name: rename composer.phar to composer
   shell: mv /usr/local/bin/composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
   when: not composer_bin.stat.exists
 
+- name: remove composer installer
+  file:
+    path: /tmp/composer-installer
+    state: absent
+
 - name: make Composer executable
-  shell: chmod a+x /usr/local/bin/composer
-  when: not composer_bin.stat.exists
+  file:
+    path: /usr/local/bin/composer
+    mode: a+x
 
 - name: composer self update
   shell: composer self-update
