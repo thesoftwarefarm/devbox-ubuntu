@@ -17,6 +17,7 @@
       - pv
       - sqlite3
       - libsqlite3-dev
+      - ntpdate
       - supervisor
       - beanstalkd
       - redis-server
