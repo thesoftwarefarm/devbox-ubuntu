@@ -17,11 +17,22 @@
       - pv
       - sqlite3
       - libsqlite3-dev
+      - language-pack-en
       - ntpdate
       - supervisor
       - beanstalkd
       - redis-server
     state: latest
+
+- name: set services to start on boot
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items:
+    - supervisor
+    - beanstalkd
+    - redis-server
 
 - name: install nginx
   apt: name=nginx state=latest
@@ -54,7 +65,6 @@
     owner: root
     group: root
     mode: 644
-    backup: yes
 
 - name: update timezone
   command: dpkg-reconfigure --frontend noninteractive tzdata
@@ -68,39 +78,36 @@
     mode: 644
     state: link
     force: yes
-    backup: yes
-  changed_when: false
-
-- name: install language packs
-  apt: name=language-pack-en state=latest
 
 - name: configure locale
-  lineinfile: dest=/etc/default/locale line='{{item}}'
+  lineinfile:
+    dest: /etc/default/locale
+    line: "{{ item.line }}"
   with_items:
-    - 'LANG="en_US.UTF-8"'
-    - 'LC_ALL="en_US.UTF-8"'
+    - { line: 'LANG="en_US.UTF-8"' }
+    - { line: 'LC_ALL="en_US.UTF-8"' }
 
-- name: set supervisor to start on boot
-  service: name=supervisor enabled=yes state=started
-
-- name: bind beanstalkd remote address
-  lineinfile: 
+- name: update beanstalkd configuration
+  lineinfile:
     dest: /etc/default/beanstalkd
-    regexp: '^BEANSTALKD_LISTEN_ADDR'
-    line: "BEANSTALKD_LISTEN_ADDR=0.0.0.0"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^BEANSTALKD_LISTEN_ADDR', line: 'BEANSTALKD_LISTEN_ADDR=0.0.0.0' }
 
-- name: reload beanstalkd
-  service: name=redis-server state=restarted
-
-- name: allow redis remote connections
+- name: update redis configuration
   lineinfile:
     dest: /etc/redis/redis.conf
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
-    backup: yes
-    backrefs: yes
   with_items:
     - { regexp: '^bind 127.0.0.1', line: 'bind 0.0.0.0' }
 
-- name: reload redis
-  service: name=redis-server state=restarted
+- name: restart services
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - supervisor
+    - beanstalkd
+    - redis-server
