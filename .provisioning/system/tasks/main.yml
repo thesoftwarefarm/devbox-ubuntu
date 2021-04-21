@@ -26,7 +26,7 @@
 
 - name: set services to start on boot
   service:
-    name: "{{item}}"
+    name: "{{ item }}"
     enabled: yes
     state: started
   with_items:
@@ -43,7 +43,7 @@
   when: system.web_server == 'apache2'
 
 - name: enable apache modules
-  apache2_module: state=present name={{item}}
+  apache2_module: state=present name={{ item }}
   with_items:
     - rewrite
     - ssl
