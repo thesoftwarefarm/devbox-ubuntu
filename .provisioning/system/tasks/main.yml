@@ -9,7 +9,6 @@
       - build-essential
       - bash-completion
       - vim
-      - git
       - htop
       - mc
       - mcrypt
