@@ -33,7 +33,7 @@ A Vagrant box with Ansible provisioner
 - redis
 - beanstalk
 - supervisor
-- various system tools: curl, wget, git, mc etc.
+- various system tools: curl, wget, mc etc.
 
 ## Installation
 
