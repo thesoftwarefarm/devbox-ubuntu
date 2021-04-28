@@ -22,7 +22,11 @@ Vagrant.configure(2) do |config|
     end
   end
 
-  config.vm.synced_folder vars['synced_folder']['source'], vars['synced_folder']['target'], type: "nfs", mount_options: ['rw', 'vers=3', 'tcp', 'fsc','actimeo=2']
+  config.vm.synced_folder vars['synced_folder']['source'], vars['synced_folder']['target'], 
+    type: "nfs", 
+    nfs_udp: false, 
+    nfs_version: 3, 
+    mount_options: ['rw', 'tcp', 'fsc','actimeo=2']
 
   config.vm.provider "virtualbox" do |vb|
     # vb.gui = true
