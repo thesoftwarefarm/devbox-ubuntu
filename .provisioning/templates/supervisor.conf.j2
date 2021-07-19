@@ -4,10 +4,13 @@ process_name=worker_%(process_num)02d
 directory={{item.supervisor.project_root}}
 command={{command.command}}
 numprocs={{command.numprocs}}
-stdout_logfile={{command.stdout_logfile}}
 user=ubuntu
 autostart=true
 autorestart=true
+stopasgroup=true
+killasgroup=true
+stopwaitsecs=3600
 redirect_stderr=true
+stdout_logfile={{command.stdout_logfile}}
 
 {% endfor %}
