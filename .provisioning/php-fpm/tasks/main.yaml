@@ -24,6 +24,7 @@
     - { regexp: '^post_max_size =', line: 'post_max_size = 128M' }
     - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
     - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
+    - { regexp: '^allow_url_fopen', line: 'allow_url_fopen = Off' }
 
 - name: tweak php.ini configuration (fpm)
   lineinfile:
@@ -41,6 +42,7 @@
     - { regexp: '^post_max_size =', line: 'post_max_size = 128M' }
     - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
     - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
+    - { regexp: '^allow_url_fopen', line: 'allow_url_fopen = Off' }
 
 - name: restart php{{system.php_version}}-fpm
   service: name=php{{system.php_version}}-fpm enabled=yes state=restarted

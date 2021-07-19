@@ -56,6 +56,6 @@
           project_root: "/var/www/html/project_2"
           commands:
             - name: queue
-              command: php artisan queue:work --sleep=1 --tries=3 --daemon --queue=default
+              command: php artisan queue:work --sleep=1 --daemon
               numprocs: 3
               stdout_logfile: "/var/www/html/project_2/storage/logs/supervisor.log"
