@@ -14,13 +14,7 @@ A Vagrant box with Ansible provisioner
 - apache2
 
 ##### PHP
-- php5.6-fpm
-- php7.0-fpm
-- php7.1-fpm
-- php7.2-fpm
-- php7.3-fpm
-- php7.4-fpm
-- php8.0-fpm
+Any version within ppa:ondrej/php considering Ubuntu version
 
 ##### Elasticsearch
 - 1.7

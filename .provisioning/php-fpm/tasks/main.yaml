@@ -2,15 +2,22 @@
     repo: 'ppa:ondrej/php'
     update_cache: 'yes'
 
-- include_tasks: "php{{ system.php_version }}-fpm.yaml"
+- name: install php{{system.php.version}} extensions
+  apt:
+    pkg: "{{ packages }}"
+    state: latest
+    update_cache: true
+  vars:
+    prefix: "php{{system.php.version}}-"
+    packages: "{{ [prefix] | product(system.php.extensions) | map('join') | list }}"  
 
 - name: install apache php-mod
-  apt: name=libapache2-mod-php{{system.php_version}} state=latest
+  apt: name=libapache2-mod-php{{system.php.version}} state=latest
   when: system.web_server == 'apache2'
 
 - name: tweak php.ini configuration (cli)
   lineinfile:
-    dest: /etc/php/{{ system.php_version }}/cli/php.ini
+    dest: /etc/php/{{ system.php.version }}/cli/php.ini
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     backup: yes
@@ -28,7 +35,7 @@
 
 - name: tweak php.ini configuration (fpm)
   lineinfile:
-    dest: /etc/php/{{ system.php_version }}/fpm/php.ini
+    dest: /etc/php/{{ system.php.version }}/fpm/php.ini
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     backup: yes
@@ -44,5 +51,5 @@
     - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
     - { regexp: '^allow_url_fopen', line: 'allow_url_fopen = Off' }
 
-- name: restart php{{system.php_version}}-fpm
-  service: name=php{{system.php_version}}-fpm enabled=yes state=restarted
+- name: restart php{{system.php.version}}-fpm
+  service: name=php{{system.php.version}}-fpm enabled=yes state=restarted

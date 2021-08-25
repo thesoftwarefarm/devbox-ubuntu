@@ -42,7 +42,23 @@
     system:
       timezone: 'Europe/Bucharest'
       web_server: "nginx" # nginx, apache2
-      php_version: "8.0" # 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0
+      php:
+        version: "8.0"
+        extensions:
+          - fpm
+          - cli
+          - mysql
+          - curl
+          - mbstring
+          - common
+          - gd
+          - soap
+          - zip
+          - bcmath
+          - xml
+          - sqlite3
+          - dev
+          - odbc
       elasticsearch_version: "6.4" # 1.7, 6.4
 
     vhosts:
