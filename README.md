@@ -63,7 +63,7 @@ Choose to install `nginx` or `apache2` by setting `system.web_server`
 
 ##### PHP version
 
-Set the php version which you want to be installed by setting `system.php_version` 
+Set the php version which you want to be installed by setting `system.php.version` 
 
 ##### Elasticsearch version
 

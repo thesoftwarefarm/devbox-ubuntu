@@ -26,7 +26,7 @@
    - pecl/pdo_sqlsrv
 
 - name: create SQL Server php configuration files
-  template: src=../../../templates/php-mod.conf.j2 dest=/etc/php/{{system.php_version}}/mods-available/{{item}}.ini
+  template: src=../../../templates/php-mod.conf.j2 dest=/etc/php/{{system.php.version}}/mods-available/{{item}}.ini
   with_items:
     - sqlsrv
     - pdo_sqlsrv
@@ -37,5 +37,5 @@
    - sqlsrv
    - pdo_sqlsrv
 
-- name: restart php{{system.php_version}}-fpm
-  service: name=php{{system.php_version}}-fpm enabled=yes state=restarted
+- name: restart php{{system.php.version}}-fpm
+  service: name=php{{system.php.version}}-fpm enabled=yes state=restarted
