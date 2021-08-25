@@ -1,14 +1,4 @@
 - name: install elasticsearch
   apt:
     deb: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.4.3.deb"
-
-- name: tweak jvm.options configuration
-  lineinfile: 
-    dest: /etc/elasticsearch/jvm.options
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    backup: yes
-    backrefs: yes
-  with_items:
-    - { regexp: '^-Xms1g', line: '-Xms256m' }
-    - { regexp: '^-Xmx1g', line: '-Xmx256m' }
+    

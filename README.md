@@ -17,8 +17,8 @@ A Vagrant box with Ansible provisioner
 Any version within ppa:ondrej/php considering Ubuntu version
 
 ##### Elasticsearch
-- 1.7
 - 6.4
+- 7.12
 
 ## Includes
 - mysql-official-latest

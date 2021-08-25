@@ -1,7 +1,12 @@
-- name: install java
-  apt: name=openjdk-8-jre state=latest
-
 - include_tasks: "elasticsearch-{{ system.elasticsearch_version }}.yaml"
 
+- name: tweak heap size configuration
+  copy:
+    dest: "/etc/elasticsearch/jvm.options.d/heap-size.options"
+    content: |
+      -Xms1g
+      -Xmx1g
+    
 - name: restart elasticsearch
   service: name=elasticsearch enabled=yes state=restarted
+  
