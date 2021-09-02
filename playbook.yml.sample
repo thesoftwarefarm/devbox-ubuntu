@@ -59,7 +59,7 @@
           - sqlite3
           - dev
           - odbc
-      elasticsearch_version: "6.4"
+      elasticsearch_version: "7.12"
 
     vhosts:
       - name: project_1
