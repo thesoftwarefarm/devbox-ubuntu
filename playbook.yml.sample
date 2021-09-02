@@ -7,16 +7,17 @@
   user: ubuntu
 
   roles:
-    - .provisioning/system
-    - .provisioning/php-fpm
-    - .provisioning/mysql-official-latest
-    - .provisioning/composer
-    - .provisioning/elasticsearch
-    - .provisioning/wkhtmltox
-    - .provisioning/vhosts
+    - role: .provisioning/system
+    - role: .provisioning/php-fpm
+    - role: .provisioning/mysql-official-latest
+    - role: .provisioning/composer
+    - role: .provisioning/elasticsearch
+    - role: .provisioning/wkhtmltox
+    - role: .provisioning/vhosts
+      tags: vhosts
 
     # available only for php >= 7.1
-    # - .provisioning/php-mods/sqlsrv
+    # - role: .provisioning/php-mods/sqlsrv
 
   # Box options
   # -----------

@@ -2,6 +2,22 @@
 # vi: set ft=ruby :
 
 require 'yaml'
+require 'getoptlong'
+
+opts = GetoptLong.new(
+  [ '--tags', GetoptLong::OPTIONAL_ARGUMENT ]
+)
+
+opts.ordering=(GetoptLong::REQUIRE_ORDER)
+
+ansible_tags=''
+
+opts.each do |opt, arg|
+  case opt
+    when '--tags'
+      ansible_tags=arg
+  end
+end
 
 # read vars from playbook
 playbook = File.dirname(__FILE__) + "/playbook.yml"
@@ -42,5 +58,9 @@ Vagrant.configure(2) do |config|
     ansible.limit = "all"
     ansible.verbose = "vv"
     ansible.extra_vars = { ansible_python_interpreter: "/usr/bin/python3" }
+
+    if ansible_tags != ''
+        ansible.tags = ansible_tags
+    end
   end
 end

@@ -113,6 +113,8 @@ On a mac, if you use WiFi you may need to replace the bridged network interface 
 
 The box will be provisioned on the first `vagrant up`; later, use `vagrant provision` whenever the configuration (playbook, roles) is updated.
 
+You might also call `vagrant --tags=tag-name provision` to execute only certain roles/actions which have that tag specified. Ie: run `vagrant --tags=vhosts` provision to run only the vhosts role
+
 Additional software can be added to the provisioner by creating additional Ansible roles and specifying them in the `playbook.yml` file.
 
 ### SSH Forward
