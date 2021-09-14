@@ -1,0 +1,11 @@
+- name: install meilisearch {{system.meilisearch_version}}
+  apt:
+    deb: "https://github.com/meilisearch/MeiliSearch/releases/download/v{{system.meilisearch_version}}/meilisearch.deb"
+
+- name: Copy meilisearch service configuration
+  template: 
+    src: ../templates/meilisearch.service.j2 
+    dest: /etc/systemd/system/meilisearch.service
+
+- name: enable meilisearch
+  service: name=meilisearch enabled=yes state=started

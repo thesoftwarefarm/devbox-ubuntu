@@ -12,6 +12,7 @@
     - role: .provisioning/mysql-official-latest
     - role: .provisioning/composer
     - role: .provisioning/elasticsearch
+    - role: .provisioning/meilisearch
     - role: .provisioning/wkhtmltox
     - role: .provisioning/vhosts
       tags: vhosts
@@ -61,6 +62,7 @@
           - dev
           - odbc
       elasticsearch_version: "7.12"
+      meilisearch_version: "0.22.0"
 
     vhosts:
       - name: project_1

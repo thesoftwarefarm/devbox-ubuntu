@@ -20,6 +20,9 @@ Any version within ppa:ondrej/php considering Ubuntu version
 - 6.4
 - 7.12
 
+##### MeiliSearch
+- Any stable release
+
 ## Includes
 - mysql-official-latest
 - composer
@@ -68,6 +71,10 @@ Set the php version which you want to be installed by setting `system.php.versio
 ##### Elasticsearch version
 
 Set the elasticsearch version which you want to be installed by setting `system.elasticsearch_version`
+
+#### MeiliSearch version
+
+Set the MeiliSearch version which you want to be installed by setting `system.meilisearch_version`
 
 ##### Virtual hosts
 
