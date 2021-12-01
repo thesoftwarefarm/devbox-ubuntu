@@ -61,6 +61,7 @@
           - sqlite3
           - dev
           - odbc
+          - intl
       elasticsearch_version: "7.12"
       meilisearch_version: "0.22.0"
 
