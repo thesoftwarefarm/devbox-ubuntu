@@ -54,6 +54,7 @@
           - mbstring
           - common
           - gd
+          - imagick
           - soap
           - zip
           - bcmath
