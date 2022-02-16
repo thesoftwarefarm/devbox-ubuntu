@@ -1,7 +1,7 @@
-{% for command in item.supervisor.commands%}
-[program:{{item.name}}-{{command.name}}]
+{% for command in vhost.supervisor.commands%}
+[program:{{vhost.name}}-{{command.name}}]
 process_name=worker_%(process_num)02d
-directory={{item.supervisor.project_root}}
+directory={{vhost.supervisor.project_root}}
 command={{command.command}}
 numprocs={{command.numprocs}}
 user=ubuntu
