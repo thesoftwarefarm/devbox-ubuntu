@@ -1,0 +1,18 @@
+- name: create {{vhost.name}} vhost
+  template: src=../templates/{{system.web_server}}-vhost.conf.j2 dest=/etc/{{system.web_server}}/sites-available/{{vhost.name}}.conf
+
+- name: create {{vhost.name}} vhost simlink
+  file: path=/etc/{{system.web_server}}/sites-enabled/{{vhost.name}}.conf
+        src=/etc/{{system.web_server}}/sites-available/{{vhost.name}}.conf
+        state=link
+        force=yes
+
+- name: create {{vhost.name}} /etc/hosts entries
+  lineinfile: 
+    dest: /etc/hosts
+    line: "127.0.0.1 {{vhost.domains | join(' ')}}"
+    state: present
+
+- name: create {{vhost.name}} supervisor config
+  template: src=../templates/supervisor.conf.j2 dest=/etc/supervisor/conf.d/{{vhost.name}}.conf
+  when: vhost.supervisor is defined and vhost.supervisor.commands is defined

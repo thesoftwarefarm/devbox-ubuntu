@@ -68,11 +68,17 @@
 
     vhosts:
       - name: project_1
-        server_name: "project_1.localdev api.project_1.localdev"
         document_root: "/var/www/html/project_1/public"
+        domains: 
+          - project_1.localdev
+          - api.project_1.localdev
+        ssl: true
       - name: project_2
-        server_name: "project_2.localdev api.project_2.localdev"
         document_root: "/var/www/html/project_2/public"
+        domains: 
+          - project_2.localdev
+          - api.project_2.localdev
+        ssl: false
         supervisor:
           project_root: "/var/www/html/project_2"
           commands:

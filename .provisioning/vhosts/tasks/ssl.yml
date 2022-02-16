@@ -1,0 +1,46 @@
+- name: Create {{vhost.name}} certificates directory
+  file:
+    path: /etc/{{system.web_server}}/certificates/{{vhost.name}}
+    state: directory
+  register: certificates_path
+
+- name: Create {{vhost.name}} private key
+  community.crypto.openssl_privatekey:
+    path: "{{certificates_path.path}}/{{vhost.name}}.key"
+  register: private_key
+
+- name: Create {{vhost.name}} csr
+  community.crypto.openssl_csr:
+    path: "{{certificates_path.path}}/{{vhost.name}}.csr"
+    privatekey_path: "{{private_key.filename}}"
+    organization_name: vagrant
+    common_name: "{{ vhost.domains | join(' ') }}"
+    subject_alt_name: "{{ vhost.domains | map('regex_replace', '^', 'DNS:') | list }}"
+  register: csr
+
+- name: Create {{vhost.name}} certificate
+  community.crypto.x509_certificate:
+    path: "{{certificates_path.path}}/{{vhost.name}}.crt"
+    privatekey_path: "{{private_key.filename}}"
+    csr_path: "{{csr.filename}}"
+    provider: selfsigned
+  register: certificate
+
+- name: Copy certificate to host
+  fetch:
+    src: "{{certificate.filename}}"
+    dest: /tmp/
+    flat: yes
+  register: local_certificate
+
+- name: Add certificate to keychain
+  local_action:
+    module: shell
+    cmd: sudo /usr/bin/security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain {{local_certificate.dest}}
+  become: no
+
+- name: Delete certificates from host
+  local_action:
+    module: file
+    path: "{{local_certificate.dest}}"
+    state: absent

@@ -1,28 +1,18 @@
-- name: copy virtual hosts
-  template: src=../templates/{{system.web_server}}-vhost.conf.j2 dest=/etc/{{system.web_server}}/sites-available/{{item.name}}.conf
+- name: create vhosts certificates
+  include_tasks: ssl.yml
+  when: vhost.ssl
+  loop_control:
+    loop_var: vhost
   with_items: "{{ vhosts }}"
 
-- name: create vhost simlink
-  file: path=/etc/{{system.web_server}}/sites-enabled/{{item.name}}.conf
-        src=/etc/{{system.web_server}}/sites-available/{{item.name}}.conf
-        state=link
-        force=yes
+- name: create vhosts
+  include_tasks: vhost.yml
+  loop_control:
+    loop_var: vhost
   with_items: "{{ vhosts }}"
 
 - name: restart {{system.web_server}}
   service: name={{system.web_server}} enabled=yes state=restarted
-
-- name: create /etc/hosts entries
-  lineinfile: 
-    dest: /etc/hosts
-    line: "127.0.0.1    {{ item.server_name }}"
-    state: present
-  with_items: "{{ vhosts }}"
-
-- name: enable supervisor config
-  template: src=../templates/supervisor.conf.j2 dest=/etc/supervisor/conf.d/{{item.name}}.conf
-  with_items: "{{ vhosts }}"
-  when: item.supervisor is defined and item.supervisor.commands is defined
 
 - name: reload supervisor
   service: name=supervisor state=restarted

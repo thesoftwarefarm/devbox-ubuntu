@@ -1,7 +1,7 @@
 <VirtualHost *:80>
-    ServerAlias {{ item.server_name }}
-    DocumentRoot {{ item.document_root }}
-    <Directory {{ item.document_root }}>
+    ServerAlias {{ vhost.domains | join(' ') }}
+    DocumentRoot {{ vhost.document_root }}
+    <Directory {{ vhost.document_root }}>
         Options -Indexes +FollowSymLinks +MultiViews
         AllowOverride All
         Order allow,deny
@@ -9,6 +9,6 @@
         Require all granted
     </Directory>
 
-    ErrorLog ${APACHE_LOG_DIR}/{{ item.name }}.error.log
-    CustomLog ${APACHE_LOG_DIR}/{{ item.name }}.access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/{{ vhost.name }}.error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ vhost.name }}.access.log combined
 </VirtualHost>
