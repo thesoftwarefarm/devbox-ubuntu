@@ -5,6 +5,10 @@ server {
     listen 443 ssl;
     ssl_certificate /etc/nginx/certificates/{{vhost.name}}/{{vhost.name}}.crt;
     ssl_certificate_key /etc/nginx/certificates/{{vhost.name}}/{{vhost.name}}.key;
+
+    if ($scheme = http) {
+        return 301 https://$host$request_uri;
+    }
     {% endif %}
 
     server_name {{vhost.domains | join(' ')}};
