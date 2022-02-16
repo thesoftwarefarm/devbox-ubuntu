@@ -87,14 +87,14 @@ Multiple supervisor commands are supported.
 - name: project_1
     document_root: "/var/www/html/project_1/public"
     domains: 
-      - project_1.localdev
-      - api.project_1.localdev
+      - "project_1.localdev"
+      - "api.project_1.localdev"
     ssl: true
 - name: project_2
     document_root: "/var/www/html/project_2/public"
     domains: 
-      - project_2.localdev
-      - api.project_2.localdev
+      - "project_2.localdev"
+      - "api.project_2.localdev"
     ssl: false
     supervisor:
       project_root: "/var/www/html/project_2"
