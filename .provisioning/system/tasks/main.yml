@@ -57,17 +57,6 @@
   command: update-alternatives --set editor /usr/bin/vim.basic
   changed_when: false
 
-- name: configure timezone
-  copy:
-    content: "{{ system.timezone }}"
-    dest: /etc/timezone
-    owner: root
-    group: root
-    mode: 644
-
-- name: update timezone
-  command: dpkg-reconfigure --frontend noninteractive tzdata
-
 - name: configure localtime
   file:
     src: /usr/share/zoneinfo/{{ system.timezone }}
@@ -77,6 +66,11 @@
     mode: 644
     state: link
     force: yes
+  register: server_timezone
+
+- name: update timezone
+  command: dpkg-reconfigure --frontend noninteractive tzdata
+  when: server_timezone.changed
 
 - name: configure locale
   lineinfile:
