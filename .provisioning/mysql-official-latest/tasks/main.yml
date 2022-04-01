@@ -21,5 +21,17 @@
             option=bind-address
             value='0.0.0.0'
 
+
 - name: restart mysql
   service: name=mysql enabled=yes state=restarted
+
+- name: create databases
+  mysql_db:
+    name: "{{item}}"
+    encoding: utf8mb4
+    collation: utf8mb4_unicode_ci
+    login_host: localhost
+    login_user: ubuntu
+    login_password: vagrant
+    state: present
+  with_items: "{{ system.databases }}"
