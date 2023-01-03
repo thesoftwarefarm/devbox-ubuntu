@@ -42,7 +42,7 @@ Vagrant.configure(2) do |config|
     type: "nfs", 
     nfs_udp: false, 
     nfs_version: 3, 
-    mount_options: ['rw', 'tcp', 'fsc','actimeo=2']
+    mount_options: ['rw', 'tcp', 'fsc','actimeo=2', 'wsize=65536','rsize=65536']
 
   config.vm.provider "virtualbox" do |vb|
     # vb.gui = true
