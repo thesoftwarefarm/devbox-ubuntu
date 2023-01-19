@@ -38,6 +38,7 @@ Vagrant.configure(2) do |config|
     end
   end
 
+  config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder vars['synced_folder']['source'], vars['synced_folder']['target'], 
     type: "nfs", 
     nfs_udp: false, 
