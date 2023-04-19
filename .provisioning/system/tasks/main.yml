@@ -18,6 +18,7 @@
       - libsqlite3-dev
       - language-pack-en
       - ntpdate
+      - chrony
       - supervisor
       - beanstalkd
       - redis-server
