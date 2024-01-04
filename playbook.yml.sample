@@ -25,10 +25,11 @@
   # Ubuntu 16.04 LTS: ubuntu/xenial64
   # Ubuntu 18.04 LTS: ubuntu/bionic64
   # Ubuntu 20.04 LTS: ubuntu/focal64
+  # Ubuntu 22.04 LTS: ubuntu/jammy64
 
   vars:
     vagrantfile:
-      box: "ubuntu/focal64"
+      box: "ubuntu/jammy64"
       hostname: "devbox"
       memory: "2048"  
       network:
@@ -37,7 +38,7 @@
         private_ip: "192.168.1.40"
       synced_folder:
         source: "/path/to/projects"
-        target: "/var/www/html" 
+        target: "/var/www" 
       port_forward:
           80: 8080
           3306: 33060
@@ -45,7 +46,7 @@
       timezone: 'Europe/Bucharest'
       web_server: "nginx" # nginx, apache2
       php:
-        version: "8.0"
+        version: "8.2"
         extensions:
           - fpm
           - cli
@@ -69,21 +70,21 @@
 
     vhosts:
       - name: project_1
-        document_root: "/var/www/html/project_1/public"
+        document_root: "/var/www/project_1/public"
         domains: 
           - "project_1.localdev"
           - "api.project_1.localdev"
         ssl: true
       - name: project_2
-        document_root: "/var/www/html/project_2/public"
+        document_root: "/var/www/project_2/public"
         domains: 
           - "project_2.localdev"
           - "api.project_2.localdev"
         ssl: false
         supervisor:
-          project_root: "/var/www/html/project_2"
+          project_root: "/var/www/project_2"
           commands:
             - name: queue
               command: php artisan queue:work --sleep=1 --daemon
               numprocs: 3
-              stdout_logfile: "/var/www/html/project_2/storage/logs/supervisor.log"
+              stdout_logfile: "/var/www/project_2/storage/logs/supervisor.log"
