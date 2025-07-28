@@ -29,6 +29,7 @@ Vagrant.configure(2) do |config|
   config.vm.hostname = vars['hostname']
   config.vm.network "public_network", ip: vars['network']['public_ip'], bridge: vars['network']['bridge']
   config.vm.network "private_network", ip: vars['network']['private_ip']
+  config.vm.disk :disk, size: vars['disk'], primary: true
 
   config.ssh.forward_agent = true
 

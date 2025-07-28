@@ -31,6 +31,7 @@
       box: "ubuntu/focal64"
       hostname: "devbox"
       memory: "2048"  
+      disk: "50GB"
       network:
         bridge: "en0: Ethernet"
         public_ip: "192.168.0.40"
