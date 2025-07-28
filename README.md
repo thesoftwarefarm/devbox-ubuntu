@@ -8,6 +8,7 @@ A Vagrant box with Ansible provisioner
 - Ubuntu 16.04 LTS: ubuntu/xenial64
 - Ubuntu 18.04 LTS: ubuntu/bionic64
 - Ubuntu 20.04 LTS: ubuntu/focal64
+- Ubuntu 22.04 LTS: ubuntu/jammy64
 
 ##### Web server
 - nginx
