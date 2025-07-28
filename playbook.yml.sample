@@ -31,7 +31,7 @@
     vagrantfile:
       box: "ubuntu/jammy64"
       hostname: "devbox"
-      memory: "2048"  
+      memory: "2048"
       disk: "50GB"
       network:
         bridge: "en0: Ethernet"
@@ -39,7 +39,7 @@
         private_ip: "192.168.1.40"
       synced_folder:
         source: "/path/to/projects"
-        target: "/var/www" 
+        target: "/var/www"
       port_forward:
           80: 8080
           3306: 33060
@@ -73,13 +73,13 @@
     vhosts:
       - name: project_1
         document_root: "/var/www/project_1/public"
-        domains: 
+        domains:
           - "project_1.localdev"
           - "api.project_1.localdev"
         ssl: true
       - name: project_2
         document_root: "/var/www/project_2/public"
-        domains: 
+        domains:
           - "project_2.localdev"
           - "api.project_2.localdev"
         ssl: false
