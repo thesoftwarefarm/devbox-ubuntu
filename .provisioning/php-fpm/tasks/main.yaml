@@ -24,7 +24,7 @@
     backrefs: yes
   with_items:
     - { regexp: '^max_execution_time =', line: 'max_execution_time = 600' }
-    - { regexp: '^memory_limit =', line: 'memory_limit = 512M' }
+    - { regexp: '^memory_limit =', line: 'memory_limit = 1024M' }
     - { regexp: '^error_reporting =', line: 'error_reporting = E_ALL' }
     - { regexp: '^display_errors =', line: 'display_errors = On' }
     - { regexp: '^display_startup_errors', line: 'display_startup_errors = On' }
@@ -42,7 +42,7 @@
     backrefs: yes
   with_items:
     - { regexp: '^max_execution_time =', line: 'max_execution_time = 600' }
-    - { regexp: '^memory_limit =', line: 'memory_limit = 512M' }
+    - { regexp: '^memory_limit =', line: 'memory_limit = 1024M' }
     - { regexp: '^error_reporting =', line: 'error_reporting = E_ALL' }
     - { regexp: '^display_errors =', line: 'display_errors = On' }
     - { regexp: '^display_startup_errors', line: 'display_startup_errors = On' }
