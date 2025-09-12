@@ -19,12 +19,7 @@ server {
     index index.html index.htm index.php;
 
     location / {
-        # First attempt to serve request as file, then
-        # as directory, then fall back to displaying a 404.
-
         try_files $uri $uri/ /index.php?$query_string;
-
-        #rewrite ^(.*\.(gif|GIF|jpe?g|JPE?G|png|PNG))$ /munee.php?files=/$1 last;
     }
 
     location ~ /\.ht {
