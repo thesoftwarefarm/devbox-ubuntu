@@ -97,6 +97,37 @@
   with_items:
     - { regexp: '^bind 127.0.0.1', line: 'bind 0.0.0.0' }
 
+- name: Keep Vagrant NFS shares alive
+  copy:
+    dest: "/etc/systemd/system/vagrant-share-keepalive.service"
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      [Unit]
+      Description=Keep Vagrant NFS shares alive
+      After=multi-user.target
+
+      [Service]
+      Type=simple
+      ExecStart=/bin/bash -c 'while true; do echo "$(date) checking {{ vagrantfile.synced_folder.target }}"; ls {{ vagrantfile.synced_folder.target }} >/dev/null 2>&1; sleep 30; done'
+
+      Restart=always
+      RestartSec=5
+      User=vagrant
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Reload systemd
+  command: systemctl daemon-reload
+
+- name: Enable and start keep-alive service
+  service:
+    name: "vagrant-share-keepalive"
+    enabled: yes
+    state: started
+
 - name: restart services
   service:
     name: "{{ item }}"
@@ -105,3 +136,4 @@
     - supervisor
     - beanstalkd
     - redis-server
+    - vagrant-share-keepalive
