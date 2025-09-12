@@ -110,7 +110,7 @@
 
       [Service]
       Type=simple
-      ExecStart=/bin/bash -c 'while true; do echo "$(date) checking {{ vagrantfile.synced_folder.target }}"; ls {{ vagrantfile.synced_folder.target }} >/dev/null 2>&1; sleep 30; done'
+      ExecStart=/bin/bash -c 'while true; do echo "Checking {{ vagrantfile.synced_folder.target }}"; ls {{ vagrantfile.synced_folder.target }} >/dev/null 2>&1; sleep 30; done'
 
       Restart=always
       RestartSec=5
