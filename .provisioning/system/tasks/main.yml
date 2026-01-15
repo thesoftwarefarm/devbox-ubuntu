@@ -143,5 +143,6 @@
   with_items:
     - supervisor
     - beanstalkd
+    - chrony
     - redis-server
     - vagrant-share-keepalive
