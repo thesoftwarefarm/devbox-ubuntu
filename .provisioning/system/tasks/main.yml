@@ -97,6 +97,14 @@
   with_items:
     - { regexp: '^bind 127.0.0.1', line: 'bind 0.0.0.0' }
 
+- name: update chrony configuration
+  lineinfile:
+    dest: /etc/chrony/chrony.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^makestep', line: 'makestep 1 -1' }
+
 - name: Keep Vagrant NFS shares alive
   copy:
     dest: "/etc/systemd/system/vagrant-share-keepalive.service"
