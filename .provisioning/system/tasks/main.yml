@@ -130,6 +130,9 @@
 - name: Reload systemd
   command: systemctl daemon-reload
 
+- name: Trust repositories
+  command: git config --system --add safe.directory '*'
+
 - name: Enable and start keep-alive service
   service:
     name: "vagrant-share-keepalive"
