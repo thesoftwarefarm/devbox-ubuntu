@@ -52,6 +52,8 @@ Vagrant.configure(2) do |config|
     vb.memory = vars['memory']
     vb.cpus = 1
     vb.customize [ "modifyvm", :id, "--uartmode1", "file", File::NULL ]
+    vb.customize [ "modifyvm", :id, "--nictype2", "virtio" ]
+    vb.customize [ "modifyvm", :id, "--nictype3", "virtio" ]
   end
 
   # ansible provisioning
