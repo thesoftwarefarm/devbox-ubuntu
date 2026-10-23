@@ -1,6 +1,6 @@
 - name: create nginx config for {{vhost.name}}
   template:
-    src: "{{system.web_server}}.conf"
+    src: nginx.conf
     dest: /etc/nginx/conf.d/{{vhost.name}}.conf
     owner: root
     group: root
