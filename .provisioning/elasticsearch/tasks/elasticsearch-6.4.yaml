@@ -1,4 +1,0 @@
-- name: install elasticsearch
-  apt:
-    deb: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.4.3.deb"
-    
