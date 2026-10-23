@@ -61,13 +61,13 @@ Change the `IP` in your `playbook.yml` file; pick an IP that is unique in your L
 
 ## Usage
 
-##### Web server
-
-Choose to install `nginx` or `apache2` by setting `system.web_server`
-
 ##### PHP version
 
 Set the php version which you want to be installed by setting `system.php.version` 
+
+##### MySQL version
+
+Set the mysql version which you want to be installed by setting `system.mysql.version` 
 
 ##### Virtual hosts
 
