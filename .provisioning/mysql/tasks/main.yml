@@ -82,4 +82,4 @@
     login_user: ubuntu
     login_password: vagrant
     state: present
-  with_items: "{{ system.databases }}"
+  with_items: "{{ mysql_databases }}"

@@ -1,4 +1,4 @@
-php_version: 8.3
+php_version: 8.5
 php_default_extensions:
   - fpm
   - cli

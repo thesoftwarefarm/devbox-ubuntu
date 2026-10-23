@@ -69,14 +69,6 @@ Choose to install `nginx` or `apache2` by setting `system.web_server`
 
 Set the php version which you want to be installed by setting `system.php.version` 
 
-##### Elasticsearch version
-
-Set the elasticsearch version which you want to be installed by setting `system.elasticsearch_version`
-
-#### MeiliSearch version
-
-Set the MeiliSearch version which you want to be installed by setting `system.meilisearch_version`
-
 ##### Virtual hosts
 
 Edit the `playbook.yml` file to specify vhosts. A vhost is described by a line like the following:
