@@ -5,31 +5,14 @@ A Vagrant box with Ansible provisioner
 ## Provision options
 
 ##### Box
-- Ubuntu 16.04 LTS: ubuntu/xenial64
-- Ubuntu 18.04 LTS: ubuntu/bionic64
-- Ubuntu 20.04 LTS: ubuntu/focal64
 - Ubuntu 22.04 LTS: ubuntu/jammy64
-
-##### Web server
-- nginx
-- apache2
-
-##### PHP
-Any version within ppa:ondrej/php considering Ubuntu version
-
-##### Elasticsearch
-- 6.4
-- 7.12
-
-##### MeiliSearch
-- Any stable release
+- Debian 13.0: bento/debian-13
 
 ## Includes
-- mysql-official-latest
-- composer
-- wkhtmltox
+- php (configurable)
+- mysql (configurable)
+- nginx
 - redis
-- beanstalk
 - supervisor
 - various system tools: curl, wget, mc etc.
 
@@ -103,6 +86,7 @@ Multiple supervisor commands are supported.
 #### MySQL
 User: `ubuntu`  
 Password: `vagrant`
+
 #### SSH 
 
 Via private key located in `.vagrant/machines/default/virtualbox/private_key` 

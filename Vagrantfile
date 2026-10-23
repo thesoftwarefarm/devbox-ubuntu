@@ -3,6 +3,7 @@
 
 require 'yaml'
 require 'getoptlong'
+require_relative 'port_check_patch'
 
 opts = GetoptLong.new(
   [ '--tags', GetoptLong::OPTIONAL_ARGUMENT ]
