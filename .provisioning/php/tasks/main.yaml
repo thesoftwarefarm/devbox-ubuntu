@@ -1,25 +1,55 @@
-- apt_repository:
-    repo: 'ppa:ondrej/php'
-    update_cache: 'yes'
+- name: add directory for storing keys
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
 
-- name: install php{{system.php.version}} extensions
+- name: retrieve sury key
+  get_url:
+    url: https://packages.sury.org/php/apt.gpg
+    dest: /etc/apt/keyrings/sury.gpg
+    mode: 0644
+    force: true
+  become: yes
+
+- name: add sury repository
+  apt_repository:
+    repo: deb [signed-by=/etc/apt/keyrings/sury.gpg] https://packages.sury.org/php {{ansible_distribution_release}} main
+    filename: php
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: set up pinning to ensure php's packages are used over the distribution provided one
+  copy:
+    content: |
+      Package: *
+      Pin: release o=deb.sury.org
+      Pin-Priority: 900
+    dest: /etc/apt/preferences.d/99php
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+
+- name: install php{{php_version}} extensions
   apt:
-    pkg: "{{ packages }}"
+    pkg: "{{packages}}"
     state: latest
     update_cache: true
   vars:
-    prefix: "php{{system.php.version}}-"
-    packages: "{{ [prefix] | product(system.php.extensions) | map('join') | list }}"  
-
-- name: install apache php-mod
-  apt: name=libapache2-mod-php{{system.php.version}} state=latest
-  when: system.web_server == 'apache2'
+    prefix: "php{{php_version}}-"
+    packages: "{{ [prefix] | product(php_default_extensions + php_extra_extensions) | map('join') | list }}"
+  become: yes
 
 - name: tweak php.ini configuration (cli)
   lineinfile:
-    dest: /etc/php/{{ system.php.version }}/cli/php.ini
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    dest: /etc/php/{{php_version}}/cli/php.ini
+    regexp: "{{item.regexp}}"
+    line: "{{item.line}}"
     backup: yes
     backrefs: yes
   with_items:
@@ -35,9 +65,9 @@
 
 - name: tweak php.ini configuration (fpm)
   lineinfile:
-    dest: /etc/php/{{ system.php.version }}/fpm/php.ini
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    dest: /etc/php/{{php_version}}/fpm/php.ini
+    regexp: "{{item.regexp}}"
+    line: "{{item.line}}"
     backup: yes
     backrefs: yes
   with_items:
@@ -51,9 +81,13 @@
     - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
     - { regexp: '^allow_url_fopen', line: 'allow_url_fopen = On' }
 
-- name: set php{{ system.php.version}} as default
-  command: update-alternatives --set php /usr/bin/php{{ system.php.version}}
+- name: set php{{php_version}} as default
+  command: update-alternatives --set php /usr/bin/php{{php_version}}
   changed_when: false
 
-- name: restart php{{system.php.version}}-fpm
-  service: name=php{{system.php.version}}-fpm enabled=yes state=restarted
+- name: ensure php{{php_version}}-fpm service is running and enabled at boot
+  service:
+    name: php{{php_version}}-fpm
+    state: started
+    enabled: yes
+  become: yes
