@@ -91,3 +91,6 @@
     state: started
     enabled: yes
   become: yes
+
+- name: install composer
+  include_tasks: composer.yml
