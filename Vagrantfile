@@ -40,10 +40,10 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder vars['synced_folder']['source'], vars['synced_folder']['target'], 
-    type: "nfs", 
-    nfs_udp: false, 
-    nfs_version: 3, 
+  config.vm.synced_folder vars['synced_folder']['source'], vars['synced_folder']['target'],
+    type: "nfs",
+    nfs_udp: false,
+    nfs_version: 3,
     mount_options: ['rw', 'tcp', 'fsc','actimeo=2', 'wsize=65536','rsize=65536']
 
   config.vm.provider "virtualbox" do |vb|
@@ -52,6 +52,7 @@ Vagrant.configure(2) do |config|
     vb.memory = vars['memory']
     vb.cpus = 1
     vb.customize [ "modifyvm", :id, "--uartmode1", "file", File::NULL ]
+    vb.customize [ "modifyvm", :id, "--nictype1", "virtio" ]
     vb.customize [ "modifyvm", :id, "--nictype2", "virtio" ]
     vb.customize [ "modifyvm", :id, "--nictype3", "virtio" ]
   end
