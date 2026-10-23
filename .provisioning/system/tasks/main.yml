@@ -15,6 +15,7 @@
       - chrony
       - supervisor
       - redis-server
+      - gpg
     state: latest
 
 - name: set services to start on boot
