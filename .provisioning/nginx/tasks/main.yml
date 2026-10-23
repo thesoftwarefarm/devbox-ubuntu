@@ -1,0 +1,65 @@
+- name: add directory for storing keys
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: retrieve nginx key
+  get_url:
+    url: https://nginx.org/keys/nginx_signing.key
+    dest: /tmp/nginx.gpg
+    mode: 0644
+
+- name: dearmor the nginx key
+  shell: cat /tmp/nginx.gpg | gpg --dearmor > /etc/apt/keyrings/nginx.gpg
+  args:
+    creates: /etc/apt/keyrings/nginx.gpg
+
+- name: add nginx repository
+  apt_repository:
+    repo: deb [signed-by=/etc/apt/keyrings/nginx.gpg] http://nginx.org/packages/{{ansible_distribution|lower}} {{ansible_distribution_release}} nginx
+    filename: nginx
+    state: present
+    update_cache: yes
+
+- name: set up pinning to ensure nginx's packages are used over the distribution provided one
+  copy:
+    content: |
+      Package: *
+      Pin: release o=nginx
+      Pin-Priority: 900
+    dest: /etc/apt/preferences.d/99nginx
+    owner: root
+    group: root
+    mode: 0644
+
+- name: install nginx
+  apt:
+    name: nginx
+    state: latest
+
+- name: configure nginx
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify: restart nginx
+
+- name: configure default server block
+  copy:
+    src: default-nginx.conf
+    dest: /etc/nginx/conf.d/default.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify: restart nginx
+
+- name: ensure nginx service is running and enabled at boot
+  service:
+    name: nginx
+    state: started
+    enabled: yes

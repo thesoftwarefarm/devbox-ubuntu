@@ -1,9 +1,11 @@
 /*
 
-!.gitignore 
+.DS_Store
+!.gitignore
 !Vagrantfile
 !.provisioning
 !playbook.yml.sample
 !.database-backups/.gitkeep
 !README.md
-.DS_Store
+!port_check_patch.rb
+!makefile

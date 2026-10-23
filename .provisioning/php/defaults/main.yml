@@ -1,0 +1,17 @@
+php_version: 8.5
+php_default_extensions:
+  - fpm
+  - cli
+  - mysql
+  - sqlite3
+  - curl
+  - mbstring
+  - soap
+  - zip
+  - bcmath
+  - xml
+  - intl
+  - gd
+  - imagick
+  - redis
+php_extra_extensions: []

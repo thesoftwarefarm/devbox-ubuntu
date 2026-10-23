@@ -1,0 +1,78 @@
+- name: add directory for storing keys
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: retrieve mysql key
+  get_url:
+    url: https://repo.mysql.com/RPM-GPG-KEY-mysql-2025
+    dest: /tmp/mysql.gpg
+    mode: 0644
+
+- name: dearmor the mysql key
+  shell: cat /tmp/mysql.gpg | gpg --dearmor > /etc/apt/keyrings/mysql.gpg
+  args:
+    creates: /etc/apt/keyrings/mysql.gpg
+
+- name: add mysql repository
+  apt_repository:
+    repo: deb [signed-by=/etc/apt/keyrings/mysql.gpg] https://repo.mysql.com/apt/{{ansible_distribution|lower}} {{ansible_distribution_release}} mysql-{{mysql_version}}
+    filename: mysql
+    state: present
+    update_cache: yes
+
+- name: set up pinning to ensure mysql's packages are used over the distribution provided one
+  copy:
+    content: |
+      Package: *
+      Pin: release o=MySQL
+      Pin-Priority: 900
+    dest: /etc/apt/preferences.d/99mysql
+    owner: root
+    group: root
+    mode: 0644
+
+- name: install MySQL {{mysql_version}}
+  apt:
+    pkg:
+      - mysql-server
+      - mysql-client
+      - python3-mysqldb
+    state: latest
+    update_cache: true
+
+- name: add ubuntu user
+  mysql_user:
+    name: ubuntu
+    plugin: caching_sha2_password
+    plugin_auth_string: 'vagrant'
+    column_case_sensitive: false
+    priv: '*.*:ALL,GRANT'
+    host: '%'
+    state: present
+
+- name: bind mysql remote address
+  ini_file: dest=/etc/mysql/mysql.conf.d/mysqld.cnf
+            section=mysqld
+            option=bind-address
+            value='0.0.0.0'
+
+- name: ensure mysql service is running and enabled at boot
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: create databases
+  mysql_db:
+    name: "{{item}}"
+    encoding: utf8mb4
+    collation: utf8mb4_unicode_ci
+    login_host: localhost
+    login_user: ubuntu
+    login_password: vagrant
+    state: present
+  with_items: "{{ mysql_databases }}"

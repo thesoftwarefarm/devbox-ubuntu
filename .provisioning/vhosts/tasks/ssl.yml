@@ -1,6 +1,6 @@
 - name: Create {{vhost.name}} certificates directory
   file:
-    path: /etc/{{system.web_server}}/certificates/{{vhost.name}}
+    path: /etc/nginx/certificates/{{vhost.name}}
     state: directory
   register: certificates_path
 

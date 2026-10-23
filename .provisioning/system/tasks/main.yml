@@ -4,55 +4,30 @@
 - name: install system tools
   apt:
     pkg:
+      - git
       - curl
       - wget
-      - build-essential
-      - bash-completion
       - vim
       - htop
-      - mc
-      - mcrypt
       - tree
       - pv
-      - sqlite3
-      - libsqlite3-dev
-      - language-pack-en
-      - ntpdate
+      - locales
       - chrony
       - supervisor
-      - beanstalkd
       - redis-server
+      - gpg
+      - python3-cryptography
     state: latest
 
 - name: set services to start on boot
   service:
-    name: "{{ item }}"
+    name: "{{item}}"
     enabled: yes
     state: started
   with_items:
+    - chrony
     - supervisor
-    - beanstalkd
     - redis-server
-
-- name: install nginx
-  apt: name=nginx state=latest
-  when: system.web_server == 'nginx'
-
-- name: install apache2
-  apt: name=apache2 state=latest
-  when: system.web_server == 'apache2'
-
-- name: enable apache modules
-  apache2_module: state=present name={{ item }}
-  with_items:
-    - rewrite
-    - ssl
-    - actions
-  when: system.web_server == 'apache2'
-
-- name: restart apache
-  service: name=apache2 enabled=yes state=restarted
-  when: system.web_server == 'apache2'
 
 - name: set vim as default editor
   command: update-alternatives --set editor /usr/bin/vim.basic
@@ -73,6 +48,11 @@
   command: dpkg-reconfigure --frontend noninteractive tzdata
   when: server_timezone.changed
 
+- name: generate en_US.UTF-8 locale
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
 - name: configure locale
   lineinfile:
     dest: /etc/default/locale
@@ -80,14 +60,6 @@
   with_items:
     - { line: 'LANG="en_US.UTF-8"' }
     - { line: 'LC_ALL="en_US.UTF-8"' }
-
-- name: update beanstalkd configuration
-  lineinfile:
-    dest: /etc/default/beanstalkd
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-  with_items:
-    - { regexp: '^BEANSTALKD_LISTEN_ADDR', line: 'BEANSTALKD_LISTEN_ADDR=0.0.0.0' }
 
 - name: update redis configuration
   lineinfile:
@@ -130,22 +102,21 @@
 - name: Reload systemd
   command: systemctl daemon-reload
 
-- name: Trust repositories
-  command: git config --system --add safe.directory '*'
-
 - name: Enable and start keep-alive service
   service:
     name: "vagrant-share-keepalive"
     enabled: yes
     state: started
 
+- name: Trust repositories
+  command: git config --system --add safe.directory '*'
+
 - name: restart services
   service:
     name: "{{ item }}"
     state: restarted
   with_items:
-    - supervisor
-    - beanstalkd
     - chrony
+    - supervisor
     - redis-server
     - vagrant-share-keepalive

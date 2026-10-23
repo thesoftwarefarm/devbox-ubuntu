@@ -1,35 +1,12 @@
 ---
 -
   hosts: all
-
   become: true
-
-  user: ubuntu
-
-  roles:
-    - role: .provisioning/system
-    - role: .provisioning/php-fpm
-    - role: .provisioning/mysql-official-latest
-    - role: .provisioning/composer
-    - role: .provisioning/elasticsearch
-    - role: .provisioning/meilisearch
-    - role: .provisioning/wkhtmltox
-    - role: .provisioning/vhosts
-      tags: vhosts
-
-    # available only for php >= 7.1
-    # - role: .provisioning/php-mods/sqlsrv
-
-  # Box options
-  # -----------
-  # Ubuntu 16.04 LTS: ubuntu/xenial64
-  # Ubuntu 18.04 LTS: ubuntu/bionic64
-  # Ubuntu 20.04 LTS: ubuntu/focal64
-  # Ubuntu 22.04 LTS: ubuntu/jammy64
+  user: vagrant
 
   vars:
     vagrantfile:
-      box: "ubuntu/jammy64"
+      box: "bento/debian-13"
       hostname: "devbox"
       memory: "2048"
       disk: "50GB"
@@ -44,32 +21,13 @@
           80: 8080
           3306: 33060
     system:
-      timezone: 'Europe/Bucharest'
-      web_server: "nginx" # nginx, apache2
+      timezone: "Europe/Bucharest"
       php:
-        version: "8.2"
-        extensions:
-          - fpm
-          - cli
-          - mysql
-          - curl
-          - mbstring
-          - common
-          - gd
-          - imagick
-          - soap
-          - zip
-          - bcmath
-          - xml
-          - sqlite3
-          - dev
-          - odbc
-          - intl
-          - redis
-      elasticsearch_version: "7.12"
-      meilisearch_version: "0.22.0"
-      databases: []
-
+        version: "8.5"
+        extensions: []
+      mysql:
+        version: "9.7-lts"
+        databases: []
     vhosts:
       - name: project_1
         document_root: "/var/www/project_1/public"
@@ -90,3 +48,16 @@
               command: php artisan queue:work --sleep=1 --daemon
               numprocs: 3
               stdout_logfile: "/var/www/project_2/storage/logs/supervisor.log"
+  roles:
+    - role: .provisioning/system
+    - role: .provisioning/nginx
+    - role: .provisioning/php
+      vars:
+        php_version: "{{system.php.version}}"
+        php_extra_extensions: "{{system.php.extensions}}"
+    - role: .provisioning/mysql
+      vars:
+        mysql_version: "{{system.mysql.version}}"
+        mysql_databases: "{{system.mysql.databases}}"
+    - role: .provisioning/vhosts
+      tags: vhosts
