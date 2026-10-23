@@ -16,6 +16,7 @@
       - supervisor
       - redis-server
       - gpg
+      - python3-cryptography
     state: latest
 
 - name: set services to start on boot
