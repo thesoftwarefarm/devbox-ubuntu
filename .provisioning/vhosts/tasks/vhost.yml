@@ -1,4 +1,4 @@
-- name: create vhost config for {{vhost.name}}
+- name: create nginx config for {{vhost.name}}
   template:
     src: "{{system.web_server}}.conf"
     dest: /etc/nginx/conf.d/{{vhost.name}}.conf
