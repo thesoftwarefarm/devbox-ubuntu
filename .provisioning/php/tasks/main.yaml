@@ -5,7 +5,6 @@
     owner: root
     group: root
     mode: 0755
-  become: yes
 
 - name: retrieve sury key
   get_url:
@@ -13,7 +12,6 @@
     dest: /etc/apt/keyrings/sury.gpg
     mode: 0644
     force: true
-  become: yes
 
 - name: add sury repository
   apt_repository:
@@ -21,7 +19,6 @@
     filename: php
     state: present
     update_cache: yes
-  become: yes
 
 - name: set up pinning to ensure php's packages are used over the distribution provided one
   copy:
@@ -33,7 +30,6 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
 
 - name: install php{{php_version}} extensions
   apt:
@@ -43,7 +39,6 @@
   vars:
     prefix: "php{{php_version}}-"
     packages: "{{ [prefix] | product(php_default_extensions + php_extra_extensions) | map('join') | list }}"
-  become: yes
 
 - name: tweak php.ini configuration (cli)
   lineinfile:
@@ -90,7 +85,6 @@
     name: php{{php_version}}-fpm
     state: started
     enabled: yes
-  become: yes
 
 - name: install composer
   include_tasks: composer.yml

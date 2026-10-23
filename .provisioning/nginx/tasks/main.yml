@@ -5,20 +5,17 @@
     owner: root
     group: root
     mode: 0755
-  become: yes
 
 - name: retrieve nginx key
   get_url:
     url: https://nginx.org/keys/nginx_signing.key
     dest: /tmp/nginx.gpg
     mode: 0644
-  become: yes
 
 - name: dearmor the nginx key
   shell: cat /tmp/nginx.gpg | gpg --dearmor > /etc/apt/keyrings/nginx.gpg
   args:
     creates: /etc/apt/keyrings/nginx.gpg
-  become: yes
 
 - name: add nginx repository
   apt_repository:
@@ -26,7 +23,6 @@
     filename: nginx
     state: present
     update_cache: yes
-  become: yes
 
 - name: set up pinning to ensure nginx's packages are used over the distribution provided one
   copy:
@@ -38,13 +34,11 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
 
 - name: install nginx
   apt:
     name: nginx
     state: latest
-  become: true
 
 - name: configure nginx
   copy:
@@ -53,7 +47,6 @@
     mode: 0644
     owner: root
     group: root
-  become: yes
   notify: restart nginx
 
 - name: configure default server block
@@ -63,7 +56,6 @@
     mode: 0644
     owner: root
     group: root
-  become: yes
   notify: restart nginx
 
 - name: ensure nginx service is running and enabled at boot
@@ -71,4 +63,3 @@
     name: nginx
     state: started
     enabled: yes
-  become: yes

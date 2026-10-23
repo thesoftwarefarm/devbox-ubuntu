@@ -2,4 +2,3 @@
   service:
     name: mysql
     state: restarted
-  become: yes

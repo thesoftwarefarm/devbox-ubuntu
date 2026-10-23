@@ -5,20 +5,17 @@
     owner: root
     group: root
     mode: 0755
-  become: yes
 
 - name: retrieve mysql key
   get_url:
     url: https://repo.mysql.com/RPM-GPG-KEY-mysql-2025
     dest: /tmp/mysql.gpg
     mode: 0644
-  become: yes
 
 - name: dearmor the mysql key
   shell: cat /tmp/mysql.gpg | gpg --dearmor > /etc/apt/keyrings/mysql.gpg
   args:
     creates: /etc/apt/keyrings/mysql.gpg
-  become: yes
 
 - name: add mysql repository
   apt_repository:
@@ -26,7 +23,6 @@
     filename: mysql
     state: present
     update_cache: yes
-  become: yes
 
 - name: set up pinning to ensure mysql's packages are used over the distribution provided one
   copy:
@@ -38,7 +34,6 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
 
 - name: install MySQL {{mysql_version}}
   apt:
@@ -48,7 +43,6 @@
       - python3-mysqldb
     state: latest
     update_cache: true
-  become: yes
 
 - name: add ubuntu user
   mysql_user:
@@ -71,7 +65,6 @@
     name: mysql
     state: started
     enabled: yes
-  become: yes
 
 - name: create databases
   mysql_db:

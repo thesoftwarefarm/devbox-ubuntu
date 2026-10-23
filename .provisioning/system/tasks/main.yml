@@ -50,7 +50,6 @@
   locale_gen:
     name: en_US.UTF-8
     state: present
-  become: true
 
 - name: configure locale
   lineinfile:
