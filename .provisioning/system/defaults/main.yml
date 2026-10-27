@@ -1,0 +1,15 @@
+application_timezone: "UTC"
+apt_default_packages:
+  - git
+  - curl
+  - wget
+  - vim
+  - htop
+  - tree
+  - pv
+  - chrony
+  - supervisor
+  - redis-server
+  - gpg
+  - python3-cryptography
+apt_extra_packages: []

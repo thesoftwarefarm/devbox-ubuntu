@@ -22,6 +22,8 @@
           3306: 33060
     system:
       timezone: "Europe/Bucharest"
+      apt:
+        packages: []
       php:
         version: "8.5"
         extensions: []
@@ -50,6 +52,9 @@
               stdout_logfile: "/var/www/project_2/storage/logs/supervisor.log"
   roles:
     - role: .provisioning/system
+      vars:
+        application_timezone: "{{system.timezone}}"
+        apt_extra_packages: "{{system.apt.packages}}"
     - role: .provisioning/nginx
     - role: .provisioning/php
       vars:

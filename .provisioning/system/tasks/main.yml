@@ -1,22 +1,11 @@
 - name: update apt cache
   apt: update_cache=yes
 
-- name: install system tools
+- name: Install system packages
   apt:
-    pkg:
-      - git
-      - curl
-      - wget
-      - vim
-      - htop
-      - tree
-      - pv
-      - chrony
-      - supervisor
-      - redis-server
-      - gpg
-      - python3-cryptography
+    pkg: "{{apt_default_packages + apt_extra_packages}}"
     state: latest
+  become: true
 
 - name: set services to start on boot
   service:
