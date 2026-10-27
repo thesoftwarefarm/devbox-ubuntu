@@ -11,7 +11,6 @@
       - htop
       - tree
       - pv
-      - locales
       - chrony
       - supervisor
       - redis-server
@@ -47,19 +46,6 @@
 - name: update timezone
   command: dpkg-reconfigure --frontend noninteractive tzdata
   when: server_timezone.changed
-
-- name: generate en_US.UTF-8 locale
-  locale_gen:
-    name: en_US.UTF-8
-    state: present
-
-- name: configure locale
-  lineinfile:
-    dest: /etc/default/locale
-    line: "{{ item.line }}"
-  with_items:
-    - { line: 'LANG="en_US.UTF-8"' }
-    - { line: 'LC_ALL="en_US.UTF-8"' }
 
 - name: update redis configuration
   lineinfile:
