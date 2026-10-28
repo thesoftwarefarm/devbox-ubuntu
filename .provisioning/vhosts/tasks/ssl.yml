@@ -14,7 +14,7 @@
     path: "{{certificates_path.path}}/{{vhost.name}}.csr"
     privatekey_path: "{{private_key.filename}}"
     organization_name: vagrant
-    common_name: "{{ vhost.domains | join(' ') }}"
+    common_name: "{{ vhost.name }}"
     subject_alt_name: "{{ vhost.domains | map('regex_replace', '^', 'DNS:') | list }}"
   register: csr
 
