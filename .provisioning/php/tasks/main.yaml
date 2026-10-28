@@ -75,6 +75,8 @@
     - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 128M' }
     - { regexp: '^;cgi.fix_pathinfo', line: 'cgi.fix_pathinfo = 0' }
     - { regexp: '^allow_url_fopen', line: 'allow_url_fopen = On' }
+  notify:
+    - restart php-fpm
 
 - name: set php{{php_version}} as default
   command: update-alternatives --set php /usr/bin/php{{php_version}}
