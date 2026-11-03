@@ -21,6 +21,15 @@
   command: update-alternatives --set editor /usr/bin/vim.basic
   changed_when: false
 
+- name: Mask tmp.mount so /tmp stays on disk after reboot
+  systemd:
+    name: tmp.mount
+    masked: yes
+
+- name: Unmount /tmp in case it is currently on tmpfs
+  command: umount -l /tmp
+  failed_when: false
+
 - name: configure localtime
   file:
     src: /usr/share/zoneinfo/{{ system.timezone }}
