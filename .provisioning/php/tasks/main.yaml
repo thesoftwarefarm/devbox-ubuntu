@@ -14,11 +14,13 @@
     force: true
 
 - name: add sury repository
-  apt_repository:
-    repo: deb [signed-by=/etc/apt/keyrings/sury.gpg] https://packages.sury.org/php {{ansible_distribution_release}} main
-    filename: php
-    state: present
-    update_cache: yes
+  deb822_repository:
+    name: php
+    types: deb
+    uris: https://packages.sury.org/php
+    suites: "{{ansible_distribution_release}}"
+    components: main
+    signed_by: /etc/apt/keyrings/sury.gpg
 
 - name: set up pinning to ensure php's packages are used over the distribution provided one
   copy:

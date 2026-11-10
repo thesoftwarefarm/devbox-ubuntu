@@ -14,15 +14,15 @@
 
 - name: dearmor the mysql key
   shell: cat /tmp/mysql.gpg | gpg --dearmor > /etc/apt/keyrings/mysql.gpg
-  args:
-    creates: /etc/apt/keyrings/mysql.gpg
 
 - name: add mysql repository
-  apt_repository:
-    repo: deb [signed-by=/etc/apt/keyrings/mysql.gpg] https://repo.mysql.com/apt/{{ansible_distribution|lower}} {{ansible_distribution_release}} mysql-{{mysql_version}}
-    filename: mysql
-    state: present
-    update_cache: yes
+  deb822_repository:
+    name: mysql
+    types: deb
+    uris: "https://repo.mysql.com/apt/{{ansible_distribution | lower}}"
+    suites: "{{ansible_distribution_release}}"
+    components: mysql-{{mysql_version}}
+    signed_by: /etc/apt/keyrings/mysql.gpg
 
 - name: set up pinning to ensure mysql's packages are used over the distribution provided one
   copy:
