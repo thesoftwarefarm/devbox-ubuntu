@@ -4,6 +4,7 @@ apt_default_packages:
   - curl
   - wget
   - vim
+  - unzip
   - htop
   - tree
   - pv
